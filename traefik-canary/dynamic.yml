@@ -1,0 +1,14 @@
+http:
+  routers:
+    myapp-router:
+      rule: "Host(`myapp.local`)"
+      service: myapp-service
+
+  services:
+    myapp-service:
+      weighted:
+        services:
+          - name: app-v1-service@docker
+            weight: 3
+          - name: app-v2-service@docker
+            weight: 7
