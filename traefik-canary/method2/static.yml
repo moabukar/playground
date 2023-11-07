@@ -1,0 +1,14 @@
+# file_provider.yml
+http:
+  routers:
+    router0:
+      service: app_weighted
+      rule: "Host(`example.local`)"
+  services:
+    app_weighted:
+      weighted:
+        services:
+          - name: app_normal@docker
+            weight: 4
+          - name: app_canary@docker
+            weight: 1
