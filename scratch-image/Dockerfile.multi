@@ -8,7 +8,7 @@ RUN git clone https://github.com/rofl0r/musl-fts.git /musl-fts
 RUN cd /musl-fts && make && cp /musl-fts/musl-fts /bin/sh
 
 # Second stage: Use BusyBox as the base image
-FROM busybox
+FROM scratch
 
 # Copy 'sh' from the first stage to the second stage
 COPY --from=builder /bin/sh /bin/sh
