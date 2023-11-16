@@ -47,22 +47,23 @@ resource "aws_ecs_service" "frontend" {
   force_new_deployment = true
   load_balancer {
     target_group_arn = aws_lb_target_group.tg[0].arn
-    container_name   = "app" 
+    container_name   = "app"
     container_port   = "80" # Application Port
   }
   deployment_controller {
     type = "CODE_DEPLOY"
   }
 
- policy
+  #  policy = 
   lifecycle {
     ignore_changes = [task_definition, desired_count, load_balancer]
   }
+
 }
 
 
 resource "aws_ecs_task_definition" "frontend_task" {
-  family = "frontend-task" 
+  family = "frontend-task"
   container_definitions = jsonencode([{
 
 
