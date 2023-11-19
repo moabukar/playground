@@ -17,6 +17,7 @@ func main() {
 		fmt.Println("Error listening on UDP:", err)
 		return
 	}
+	// go handleConnection(conn)
 	defer conn.Close()
 
 	buffer := make([]byte, 1024)
