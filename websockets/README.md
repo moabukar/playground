@@ -11,4 +11,4 @@
 
 
 - Maybe use websocat to test websocket connections
-    - `websocat ws://localhost:8085/ws`
+    - `websocat ws://localhost:8085/ws` (this one works)
