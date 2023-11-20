@@ -12,3 +12,12 @@
 
 - Maybe use websocat to test websocket connections
     - `websocat ws://localhost:8085/ws` (this one works)
+
+
+## Using JS
+
+- node index.js
+
+- use chrome dev tools & connect to port 8080
+- `ws = new WebSocket("ws://localhost:8085/ws")`
+- `ws.send("hello")`
