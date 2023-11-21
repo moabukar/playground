@@ -2,20 +2,12 @@
 
 - create proto file
 
-- `protoc --go_out=.--go_opt=paths=source_relative \
-    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    hello_world.proto`
-
-- protoc-gen-go-grpc --go_out=.--go_opt=paths=source_relative \
-    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    hello_world.proto
-
-
 ```bash
-
-protoc --go_out=. --go_opt=paths=source_relative \
+❯ protoc --proto_path=/Users/mohameda/Documents/Learning/playground/gRPC/ \
+       --go_out=. --go_opt=paths=source_relative \
        --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-       /Users/mohameda/Documents/Learning/playground/gRPC/demo.proto
+       <change_this path to the path where your proto file exists>
+
 ```
 
 ```bash
