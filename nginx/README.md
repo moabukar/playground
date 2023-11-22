@@ -43,7 +43,7 @@ sudo iptables --table nat --append PREROUTING --destination 192.168.254.10 --pro
 
 
 
-//SNAT
+## SNAT
 sudo iptables --table nat --append POSTROUTING --destination 192.168.254.10 --protocol tcp --dport 81 --jump SNAT --to-source 192.168.254.10
 
 sudo iptables --table nat --append POSTROUTING --destination 192.168.254.10 --protocol tcp --dport 82 --jump SNAT --to-source 192.168.254.10
