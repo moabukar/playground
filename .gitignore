@@ -152,3 +152,12 @@ dist
 
 # Go workspace file
 go.work
+
+*acme.json
+
+*.log
+
+.crt 
+.key
+
+acme.json
