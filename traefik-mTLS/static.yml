@@ -2,8 +2,10 @@ providers:
   file:
     directory: /etc/traefik/conf
     watch: true
-  http:
-    endpoint: http://host.docker.internal/config
+  # http:
+  #   # endpoint: http://host.docker.internal/config
+  #   endpoint: http://localhost:8080
+
 
 ping:
   entryPoint: "traefik"
@@ -11,9 +13,14 @@ ping:
 entryPoints:
   http:
     address: ":80"
+  # forwardedHeaders:
+  #     insecure: true
 
   https:
     address: ":443"
+
+  ping:
+    address: ":8082"
 
 # API and dashboard configuration
 api:
@@ -27,6 +34,7 @@ accessLog:
 log:
   filePath: log-file.log
   level: DEBUG
+  format: json
 
 serversTransport:
   insecureSkipVerify: true
@@ -36,9 +44,24 @@ certificatesResolvers:
       caserver: https://ca.test:54321/acme/acme/directory
       storage: acme.json
       httpChallenge:
-        entryPoint: https
+        entryPoint: http
 
 
 metrics:
   prometheus:
     addRoutersLabels: true
+
+# tracing:
+#   servicename: tracing
+#   jaeger:
+#     samplingParam: 1
+#     samplingServerURL: 'http://12.0.0.1:5778/sampling'
+#     samplingType: const
+#     localAgentHostPort: '12.0.0.1:6831'
+
+# tracing:
+#   serviceName: noop@internal
+
+tracing:
+  jaeger:
+    samplingServerURL: http://localhost:5778/sampling

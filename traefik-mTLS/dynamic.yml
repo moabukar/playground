@@ -8,10 +8,10 @@ http:
       middlewares:
         - "secured-redirect"
     dashboard-secured:
-      entryPoints:
-        - "https"
       rule: "Host(`mo.test`)"
       service: "api@internal"
+      entryPoints:
+        - "https"
       tls:
         certResolver: "local"
         domains:
@@ -51,6 +51,7 @@ http:
 tls:
   options:
     acmeClient:
+      minVersion: VersionTLS13
       clientAuth:
         caFiles:
           - /Users/mohameda/.step/authorities/test.ca/certs/root_ca.crt

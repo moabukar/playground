@@ -107,7 +107,7 @@ via Containers:
 ```bash
 
 ## Creating certificate for mTLS connection
-- step ca certificate client client.crt client.key --set emailAddresses=example@test.in --context=test.ca --size=4096 --kty=RSA
+- step ca certificate client client.crt client.key --set emailAddresses=mo@example.com --context=test.ca --size=4096 --kty=RSA
 
 ## if you run the above, make sure the CA server is running!! (step-ca --context=test.ca)
 
