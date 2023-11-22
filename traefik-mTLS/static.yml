@@ -1,0 +1,44 @@
+providers:
+  file:
+    directory: /etc/traefik/conf
+    watch: true
+  http:
+    endpoint: http://host.docker.internal/config
+
+ping:
+  entryPoint: "traefik"
+
+entryPoints:
+  http:
+    address: ":80"
+
+  https:
+    address: ":443"
+
+# API and dashboard configuration
+api:
+  insecure: true
+  dashboard: true
+
+accessLog:
+  bufferingSize: 100
+  filePath: log-access.log 
+
+log:
+  filePath: log-file.log
+  level: DEBUG
+
+serversTransport:
+  insecureSkipVerify: true
+certificatesResolvers:
+  local:
+    acme:
+      caserver: https://ca.test:54321/acme/acme/directory
+      storage: acme.json
+      httpChallenge:
+        entryPoint: https
+
+
+metrics:
+  prometheus:
+    addRoutersLabels: true
