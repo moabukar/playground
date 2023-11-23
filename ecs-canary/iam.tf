@@ -1,5 +1,5 @@
 module "ecr_ecs_ci_user" {
-  source         = "github.com/Jareechang/tf-modules//iam/ecr?ref=v1.0.15"
+  source         = "github.com/moabukar/tf-mods//iam/ecr?ref=v1.0.15"
   env            = var.env
   project_id     = var.project_id
   create_ci_user = true
@@ -29,7 +29,7 @@ module "ecr_ecs_ci_user" {
 
 ## Execution role and task roles
 module "ecs_roles" {
-  source                    = "github.com/Jareechang/tf-modules//iam/ecs?ref=v1.0.1"
+  source                    = "github.com/moabukar/tf-mods//iam/ecs?ref=v1.0.1"
   create_ecs_execution_role = true
   create_ecs_task_role      = true
 

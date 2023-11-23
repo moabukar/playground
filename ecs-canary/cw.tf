@@ -5,7 +5,7 @@ resource "aws_cloudwatch_log_group" "ecs" {
 
 ## Cloudwatch log errors
 module "application_error_alarm" {
-  source             = "github.com/Jareechang/tf-modules//cloudwatch/alarms/application-log-errors?ref=v1.0.12"
+  source             = "github.com/moabukar/tf-mods//cloudwatch/alarms/application-log-errors?ref=v1.0.12"
   evaluation_periods = "2"
   threshold          = "10"
   arn_suffix         = module.alb.lb.arn_suffix
@@ -20,7 +20,7 @@ module "application_error_alarm" {
 
 ## ALB errors (5xx)
 module "http_error_alarm" {
-  source             = "github.com/Jareechang/tf-modules//cloudwatch/alarms/alb-http-errors?ref=v1.0.8"
+  source             = "github.com/moabukar/tf-mods//cloudwatch/alarms/alb-http-errors?ref=v1.0.8"
   evaluation_periods = "2"
   threshold          = "10"
   arn_suffix         = module.alb.lb.arn_suffix
