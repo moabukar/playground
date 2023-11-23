@@ -98,6 +98,18 @@ Direct Traefik:
 via Containers:
 - `docker build . -t traefik`
 - `docker build . -t traefik --build-arg ARCH=linux_arm64` // for M1 Macs
+- Change path of CA cert in Dockerfile when using this method
+```bash
+tls:
+  options:
+    acmeClient:
+      minVersion: VersionTLS13
+      clientAuth:
+        caFiles:
+          # for container
+          # - /home/.step/authorities/test.ca/certs/root_ca.crt
+        clientAuthType: RequireAndVerifyClientCert
+```
 - `docker run -p 8080:8080 -p 80:80 -v ./static.yml:/etc/traefik/traefik.yml -it traefik`
 - `http://localhost:8080/dashboard`
 
@@ -116,3 +128,8 @@ via Containers:
 step certificate p12 client.p12 client.crt client.key
 
 ```
+
+## Note
+
+- Use safari to verify `mo.test`
+- There is an issue with Chrome and TLS, it doesn't seem to work. (Research)
