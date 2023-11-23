@@ -165,3 +165,7 @@ acme.json
 */ca
 
 /pki
+
+*.pem
+*.key
+*.csr
