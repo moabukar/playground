@@ -161,3 +161,7 @@ go.work
 .key
 
 acme.json
+
+*/ca
+
+/pki
