@@ -157,7 +157,7 @@ go.work
 
 *.log
 
-.crt 
+*.crt 
 .key
 
 acme.json

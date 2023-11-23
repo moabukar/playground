@@ -54,7 +54,10 @@ tls:
       minVersion: VersionTLS13
       clientAuth:
         caFiles:
+          # for local testing
           - /Users/mohameda/.step/authorities/test.ca/certs/root_ca.crt
+          # for container
+          # - /home/.step/authorities/test.ca/certs/root_ca.crt
 # the path of root certificate might be like below:-
 # <USER_HOME>/.step/authorities/test.ca/certs/root_ca.crt
         clientAuthType: RequireAndVerifyClientCert

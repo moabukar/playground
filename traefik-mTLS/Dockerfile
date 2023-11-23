@@ -16,11 +16,13 @@ RUN cd /tmp && \
 
 RUN mkdir -p /etc/traefik && \
     mkdir -p /etc/traefik/conf && \
-    mkdir -p /tls
+    mkdir -p /tls \
+    mkdir -p /.step/authorities/test.ca/certs/
 
 # Copy custom Traefik config files
 COPY ./dynamic.yml /etc/traefik/conf/
 
+COPY ./root_ca.crt /home/.step/authorities/test.ca/certs/root_ca.crt
 
 WORKDIR /etc/traefik
 
