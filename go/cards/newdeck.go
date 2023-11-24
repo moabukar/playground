@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 type deck []string
@@ -43,9 +45,9 @@ func (d deck) toString() string {
 }
 
 // function to save deck to file
-// func (d deck) saveToFile(name string) error {
-// 	return os.WriteFile(name, []byte(d.toString()), 0666)
-// }
+func (d deck) saveToFile(name string) error {
+	return os.WriteFile(name, []byte(d.toString()), 0666)
+}
 
 func newDeckFromFile(name string) deck {
 	bs, err := os.ReadFile(name)
@@ -53,12 +55,37 @@ func newDeckFromFile(name string) deck {
 		fmt.Println("Error: ", err)
 		os.Exit(1)
 	}
-	return deck(strings.Split(string(bs), ","))
+	s := deck(strings.Split(string(bs), ","))
+	return s
+}
+
+func (d deck) shuffle() {
+	// simple shuffle logic
+	// loop through deck
+	// generate random number between 0 and length of deck
+	// swap current card with card at random number index
+
+	// create new source for random number generator (in this case time otherwise it will generate same random number)
+	rand.Seed(time.Now().UnixNano())
+
+	for i := range d {
+		newPosition := rand.Intn(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
 }
 
 func main() {
 	// cards := newDeck()
 	// cards.saveToFile("my_cards.txt")
-	cards2 := newDeckFromFile("my_cards.txt")
-	fmt.Println(cards2)
+	//////////////////////////////////
+	// createCards := newDeckFromFile("my_cards.txt")
+	// fmt.Println(createCards)
+	// //////////////////////////////////
+	// readCards := newDeck()
+	// readCards.saveToFile("newcards.txt")
+	///
+	// shuffle
+	cards := newDeck()
+	cards.shuffle()
+	cards.print()
 }
