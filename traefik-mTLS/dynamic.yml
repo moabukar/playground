@@ -47,6 +47,10 @@ http:
         passHostHeader: true
         servers:
           - url: "http://localhost:8080/"
+        healthCheck:
+          path: "/ping"
+          interval: "10s"
+          timeout: "2s"
 
 tls:
   options:
