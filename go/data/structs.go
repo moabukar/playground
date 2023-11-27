@@ -5,7 +5,7 @@ import "fmt"
 type person struct {
 	firstName string
 	lastName  string
-	contact   contactInfo
+	contactInfo
 }
 
 type contactInfo struct {
@@ -27,10 +27,31 @@ func main() {
 	jim := person{
 		firstName: "Jim",
 		lastName:  "Party",
-		contact: contactInfo{
+		contactInfo: contactInfo{
 			email:   "jim.party@gmail.com",
 			zipCode: 94000,
 		},
 	}
-	fmt.Printf("%+v", jim)
+	// fmt.Printf("%+v", jim)
+	// jim.print()
+	// jimPointer := &jim
+
+	//// easy way to use pointer
+	// the below knows that the type is a pointer to a person
+	jim.updateName("jimmy")
+	// jimPointer.updateLastName("party")
+	jim.print()
+	// jimPointer.updateName("jimmy")
+}
+
+func (p *person) updateName(newFirstName string) {
+	(*p).firstName = newFirstName
+}
+
+func (p *person) updateLastName(newLastName string) {
+	(*p).lastName = newLastName
+}
+
+func (p person) print() {
+	fmt.Printf("%+v", p)
 }
