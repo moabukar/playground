@@ -9,18 +9,19 @@ func checkSite(site string, c chan string) {
 	_, err := http.Get(site)
 	if err != nil {
 		fmt.Println(site, "is down!")
-		c <- "Might be down I think"
+		c <- site
 		return
 	}
 
 	fmt.Println(site, "is up!")
-	c <- "Yep it's up"
+	c <- site
 	// defer up.Body.Close()
 }
 
 func main() {
 	sites := []string{
-		"fakesite",
+		"http://google.com",
+		"http://twitter.com",
 		"http://facebook.com",
 		"http://stackoverflow.com",
 		"http://golang.org",
@@ -34,7 +35,19 @@ func main() {
 		go checkSite(site, c)
 	}
 	// checkSite(<-c, c)
-	fmt.Println(<-c)
+	// fmt.Println(<-c)
+	// fmt.Println(<-c)
+	//////////////////////////////
+	// Method 1
+	// for {
+	// 	//fmt.Println(<-c)
+	// 	go checkSite(<-c, c)
+	// }
+	// Method 2 (same as Method 1 but more readable)
+	for l := range c {
+		//fmt.Println(<-c)
+		go checkSite(l, c)
+	}
 }
 
 // Common go saying: Concurrency is not parallelism
