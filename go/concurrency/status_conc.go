@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func checkSite(site string, c chan string) {
@@ -46,7 +47,11 @@ func main() {
 	// Method 2 (same as Method 1 but more readable)
 	for l := range c {
 		//fmt.Println(<-c)
-		go checkSite(l, c)
+		// time.Sleep(5 * time.Second)
+		go func(site string) {
+			time.Sleep(5 * time.Second)
+			checkSite(site, c)
+		}(l)
 	}
 }
 
