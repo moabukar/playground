@@ -49,3 +49,12 @@ func main() {
 	t := "arc"
 	fmt.Println(isAnagram(s, t))
 }
+
+// Understanding
+
+// In summary, this function works on the principle that if two strings are anagrams,
+// they must contain the same characters in the same quantities,
+// regardless of order.
+// The array m tracks the frequency of each character in s and t,
+// and the function verifies if these frequencies are equal,
+// thereby determining if s and t are anagrams.
