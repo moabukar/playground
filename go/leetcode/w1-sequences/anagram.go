@@ -26,11 +26,16 @@ func isAnagram(s string, t string) bool {
 	// condition 2 -
 
 	m := [26]int{} // 26 letters in the alphabet
+	// loop through the string and increment the count of each letter
 	for i := range s {
+		// increment the count of each letter in s
 		m[s[i]-'a']++
+		// decrement the count of each letter in t
 		m[t[i]-'a']--
 	}
+	// loop through the map and check if the count of each letter is 0
 	for i := range m {
+		// if the count of any letter is not 0, return false
 		if m[i] != 0 {
 			return false
 		}
