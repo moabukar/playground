@@ -22,18 +22,31 @@ import "fmt"
 // Input: nums = [3,3], target = 6
 // Output: [0,1]
 
+// func twoSum(nums []int, target int) []int {
+// 	// make a map to store the index of the number (map of number:index)
+// 	m := make(map[int]int)
+// 	// loop through the nums
+// 	for i := 0; i < len(nums); i++ {
+// 		// find the difference between target and the current number
+// 		diff := target - nums[i]
+// 		// if the difference is in the map, return the index of the difference and the current index
+// 		if _, ok := m[diff]; ok {
+// 			return []int{m[diff], i}
+// 		}
+// 		// else, add the current number and index to the map
+// 		m[nums[i]] = i
+// 	}
+// 	return nil
+// }
+
 func twoSum(nums []int, target int) []int {
-	// make a map to store the index of the number (map of number:index)
 	m := make(map[int]int)
-	// loop through the nums
+
 	for i := 0; i < len(nums); i++ {
-		// find the difference between target and the current number
 		diff := target - nums[i]
-		// if the difference is in the map, return the index of the difference and the current index
 		if _, ok := m[diff]; ok {
 			return []int{m[diff], i}
 		}
-		// else, add the current number and index to the map
 		m[nums[i]] = i
 	}
 	return nil

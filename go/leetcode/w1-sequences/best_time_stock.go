@@ -16,34 +16,33 @@ import "fmt"
 // Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell
 
 func maxProfit(prices []int) int {
-	// if the length of the prices is 0, return 0
+	// make a variable to store the min price
 	if len(prices) == 0 {
 		return 0
 	}
-	// make a variable to store the profit
-	var profit int
-	// make a variable to store the minimum price
-	min := prices[0]
+
+	// make a variable to store the max profit
+	minPrice := prices[0]
+	maxProfit := 0
+
 	// loop through the prices
-	for i := 1; i < len(prices); i++ {
-		// if the current price is less than the minimum price, set the minimum price to the current price
-		if prices[i] < min {
-			min = prices[i]
-		} else {
-			// else, set the profit to the difference between the current price and the minimum price
-			tmp := prices[i] - min
-			// if the profit is greater than the current profit, set the profit to the current profit
-			if tmp > profit {
-				profit = tmp
-			}
+	for _, price := range prices {
+		// if the current price is less than the min price, set the min price to the current price
+		if price < minPrice {
+			minPrice = price
+		}
+		// else if the current price minus the min price is greater than the max profit, set the max profit to the current price minus the min price
+		if price-minPrice > maxProfit {
+			maxProfit = price - minPrice
 		}
 	}
-	// return the profit
-	return profit
+	// return the max profit
+	return maxProfit
 }
 
 func main() {
-	prices := []int{7, 1, 5, 3, 6, 4}
-	mP := maxProfit(prices)
-	fmt.Println(mP)
+	prices := []int{0, 1, 5, 3, -5, 15}
+	fmt.Println(maxProfit(prices))
+	// mP := maxProfit(prices)
+	// fmt.Println(mP)
 }
