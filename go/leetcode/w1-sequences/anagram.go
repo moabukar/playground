@@ -18,30 +18,31 @@ import "fmt"
 // Output: false
 
 func isAnagram(s string, t string) bool {
-	// condition 1 - if the length of s is not equal to the length of t, defo not an anagram
+	// Condition 1: if the length of both strings, then defo not an anagram
 	if len(s) != len(t) {
 		return false
 	}
+	// init an empty array of 26 elements
+	m := [26]int{}
 
-	// condition 2 -
+	// // loop through the string and increment the value of the index
+	// for i := range s {
+	// 	m[s[i]-'a']++
+	// 	m[t[i]-'a']--
+	// }
 
-	m := [26]int{} // 26 letters in the alphabet
-	// loop through the string and increment the count of each letter
-	for i := range s {
-		// increment the count of each letter in s
-		m[s[i]-'a']++
-		// decrement the count of each letter in t
+	// this is the EXACT same as the above code but reversed (the above might be better tbh)
+	for i := range t {
 		m[t[i]-'a']--
+		m[s[i]-'a']++
 	}
-	// loop through the map and check if the count of each letter is 0
+	// loop through the array and check if the value is 0
 	for i := range m {
-		// if the count of any letter is not 0, return false
 		if m[i] != 0 {
 			return false
 		}
 	}
 	return true
-
 }
 
 func main() {
