@@ -42,11 +42,13 @@ func isValid(s string) bool {
 		switch char {
 		case '(', '{', '[':
 			stack[top] = m[char]
+			// increment the top
 			top++
 		// case 2: if the char is a closing bracket, check if the top of the stack is the same as the char
 		case ')', '}', ']':
 			// if it is, pop the stack
 			if top > 0 && stack[top-1] == char {
+				// decrement the top
 				top--
 			} else {
 				// if it isn't, return false
@@ -56,7 +58,6 @@ func isValid(s string) bool {
 	}
 	// return true if the stack is empty
 	return top == 0
-
 }
 
 func main() {
