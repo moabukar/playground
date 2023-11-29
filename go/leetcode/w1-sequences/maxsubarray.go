@@ -28,7 +28,7 @@ func maxSubArray(nums []int) int {
 	// set to the first element of the array & will hold the largest sum found
 	max_so_far := nums[0]
 	// also set to the first element - keeps track of the sum of the subarray ending at current position
-	max_ending_here := 0
+	max_ending_here := nums[0]
 
 	for i := 1; i < len(nums); i++ {
 		// in each iteration, we add current element to max_ending_here
@@ -36,7 +36,7 @@ func maxSubArray(nums []int) int {
 		if max_ending_here+nums[i] > nums[i] {
 			max_ending_here += nums[i]
 		} else {
-			// otherwise
+			// otherwise we set it to the current element
 			max_ending_here = nums[i]
 		}
 		if max_ending_here > max_so_far {
