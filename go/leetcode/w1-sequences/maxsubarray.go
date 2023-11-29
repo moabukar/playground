@@ -23,6 +23,7 @@ import "fmt"
 // Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
 
 // Solving with Kadane's Algorithm [more efficient approach and uses O(N) time complexity and O(1) space complexity ]
+// more reading here and to understand Algo better >> https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
 
 func maxSubArray(nums []int) int {
 	// set to the first element of the array & will hold the largest sum found
