@@ -55,8 +55,8 @@ func productExceptSelf(nums []int) []int {
 	rightProduct := 1
 	// loop starts from last element - and loops through array
 	for i := len(nums) - 1; i >= 0; i-- {
-		answer[i] *= rightProduct
-		rightProduct *= nums[i]
+		answer[i] *= rightProduct // same as >> answer[i]= answer[i] * rightProduct
+		rightProduct *= nums[i]   // same as >> rightProduct = rightProduct * nums[i]
 	}
 	return answer
 }
