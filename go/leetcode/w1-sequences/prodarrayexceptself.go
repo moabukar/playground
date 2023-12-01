@@ -18,8 +18,10 @@ import "fmt"
 // Output: [0,0,9,0,0]
 
 func productExceptSelf(nums []int) []int {
+	// create a slice answer with the same length as nums
 	answer := make([]int, len(nums))
 
+	//
 	left := 1
 	right := 1
 
