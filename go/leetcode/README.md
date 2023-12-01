@@ -2,13 +2,13 @@
 
 ## W1 (Sequences)
 
-- Two Sum ✅
-- Contains Duplicate ✅
-- Best Time to Buy and Sell Stock I ✅
-- Valid Anagram ✅
-- Valid Parentheses ✅
-- Maximum Subarray ✅
-- Product of Array Except Self ✅
+- [Two Sum](./w1-sequences/twoSum.go) ✅
+- [Contains Duplicate](./w1-sequences/contains_duplicate.go) ✅
+- [Best Time to Buy and Sell Stock I](./w1-sequences/best_time_stock.go) ✅
+- [Valid Anagram](./w1-sequences/anagram.go) ✅
+- [Valid Parentheses](./w1-sequences/parantheses.go) ✅
+- [Maximum Subarray](./w1-sequences/maxsubarray.go) ✅
+- [Product of Array Except Self](./w1-sequences/prodarrayexceptself.go) ✅
 - 3Sum
 - Merge Intervals
 - Group Anagrams
