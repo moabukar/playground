@@ -79,3 +79,8 @@
 - **HTTPS**: Encrypts data to protect during transit.
 - **HTTP Vulnerability**: Susceptible to eavesdropping and attacks without encryption.
 
+---
+
+## Creating a private K8s cluster with AWS
+
+
