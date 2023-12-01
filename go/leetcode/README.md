@@ -9,7 +9,7 @@
 - [Valid Parentheses](./w1-sequences/parantheses.go) ✅
 - [Maximum Subarray](./w1-sequences/maxsubarray.go) ✅
 - [Product of Array Except Self](./w1-sequences/prodarrayexceptself.go) ✅
-- 3Sum
+- [3Sum](./w1-sequences/3sum.go)
 - Merge Intervals
 - Group Anagrams
 
