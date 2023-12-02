@@ -4,7 +4,7 @@ Answers;
 
 1.
   a. 56042
-  b. 46951 (too low?)
+  b. 46951 (too low?) 55159? (still not right)
 
 
 2. 

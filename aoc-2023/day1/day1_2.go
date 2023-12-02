@@ -4,49 +4,57 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
-	"strings"
 )
 
+var numberMap = map[string]int{
+	"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4,
+	"five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9,
+}
+
 func main() {
-	spelledNumbers := map[string]string{
-		"one": "1", "two": "2", "three": "3", "four": "4",
-		"five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9",
+	file, err := os.Open("input.txt")
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
 	}
+	defer file.Close()
 
-	scanner := bufio.NewScanner(os.Stdin)
-	sum := 0
-
+	var sum int
+	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-		words := strings.FieldsFunc(line, func(r rune) bool {
-			return r < 'a' || r > 'z'
-		})
-
-		first, last := "", ""
-		for _, word := range words {
-			if val, exists := spelledNumbers[word]; exists {
-				if first == "" {
-					first = val
-				}
-				last = val
-			} else if _, err := strconv.Atoi(word); err == nil && len(word) == 1 {
-				if first == "" {
-					first = word
-				}
-				last = word
-			}
-		}
-
-		if first != "" && last != "" {
-			number, _ := strconv.Atoi(first + last)
-			sum += number
+		first, last := findDigitsWithWords(line)
+		if first != -1 && last != -1 {
+			value, _ := strconv.Atoi(fmt.Sprintf("%d%d", first, last))
+			sum += value
 		}
 	}
-
 	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+		fmt.Println("Error reading file:", err)
+		return
 	}
 
-	fmt.Println(sum)
+	fmt.Println("Sum of calibration values (Part Two):", sum)
+}
+
+func findDigitsWithWords(s string) (int, int) {
+	var first, last int = -1, -1
+	words := regexp.MustCompile(`[a-z]+|\d`).FindAllString(s, -1)
+	for _, word := range words {
+		if num, exists := numberMap[word]; exists {
+			if first == -1 {
+				first = num
+			}
+			last = num
+		} else if len(word) == 1 && '0' <= word[0] && word[0] <= '9' {
+			num := int(word[0] - '0')
+			if first == -1 {
+				first = num
+			}
+			last = num
+		}
+	}
+	return first, last
 }
