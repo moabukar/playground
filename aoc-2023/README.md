@@ -17,5 +17,9 @@ b. The power of min sets is 69110
 ### Day 3
 ```
 
+a. 8283 >> too low - 1st attempt :(
+
+Part 1:  540025
+Part 2:  84584891
 
 ```
