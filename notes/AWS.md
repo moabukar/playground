@@ -15,4 +15,5 @@
 - Price is not straightforward, depends on the number of requests, data transfer, caching, etc.
   - If your workload is spiky and idle for a long time, API GW is probably cheaper
   - But if your workload is consistently using high volume, ALB is probably cheaper
-- 
+
+
