@@ -16,4 +16,60 @@
   - If your workload is spiky and idle for a long time, API GW is probably cheaper
   - But if your workload is consistently using high volume, ALB is probably cheaper
 
+## Scaling:
 
+- Vertical scaling: increase the size of the instance
+- Horizontal scaling: increase the number of instances (better and more recommended for larger distributed systems)
+
+### Lambda scaling:
+
+- Lambda scales out (not up) automatically
+- Lambda functions are independent, 1 event = 1 function
+- Lambda is serverless, no servers to manage
+
+### Container scaling:
+
+- ECS scales out (not up) automatically.
+- ECS can be integrated with EC2 Auto Scaling groups, which can scale out (not up) automatically
+- ECS cluster can scale out (not up) automatically using CloudWatch Alarms
+
+
+
+### EKS scaling:
+
+- Cluster Autoscaler: scales the number of nodes within a cluster
+- Horizontal Pod Autoscaler: scales the number of pods within a deployment/VM/EC2 instance
+
+### Fargate scaling:
+
+- AWS manages the scaling of the nodes for you (no underly EC2/server instances to manage)
+- No Cluster Autoscaler here because AWS manages the scaling of the nodes for you
+
+## Question:
+
+- How can you make your application scaalable for a big traffic day?
+
+Average answer: Put VMs in an Auto scaling group behind an elastic load balancer
+
+## Answer:
+
+- Put VMs in an Auto scaling group behind an elastic load balancer
+- On a big traffic day, the burst will be high - so you can pre-warm your load balancers to ensure that they can handle the load
+- You can also pre-warm your auto scaling group by setting a minimum number of instances to start with
+- Also utilise shecudled scaling to increase the number of instances before the big traffic day (like in the morning at 6am)
+- Ensure the AMI is lightweight (so it can boot up quickly & no unnecessary software and packages)
+- If my application is connecting to a database, I will use a database proxy to handle the connections (so that the database is not overwhelmed with connections) like RDS proxy as it will maintain the pool of connections to the database
+- Run IEM (Infrastructure Event Management) to monitor the health of the application and the underlying infrastructure to ensure it can handle the load
+- Possibly increase the limit quota of the service (like EC2 instances, load balancers, etc.) before the big traffic day
+- Also, talk about breaking the app into micro services
+
+
+### Serverless scaling
+
+- Ensure provisioned concurrency is enabled (will pre warm the lambdas so it can handle the burst of traffic)
+- Optimise Lamdbda code using X-Ray to identify bottlenecks
+- Optimise lambda configuration using CloudWatch insights to identify bottlenecks
+- If using API GW, enable API caching
+  - Use HTTP API instead of REST API (as HTTP API is faster & cheaper)
+- Increase account limits (utilise different combo of account & region)
+- 
