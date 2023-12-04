@@ -72,4 +72,14 @@ Average answer: Put VMs in an Auto scaling group behind an elastic load balancer
 - If using API GW, enable API caching
   - Use HTTP API instead of REST API (as HTTP API is faster & cheaper)
 - Increase account limits (utilise different combo of account & region)
-- 
+- If using DBs, Use a database proxy (like RDS proxy) to handle the connections to the database
+
+
+### K8s scaling
+
+- Use HPA (Horizontal Pod Autoscaler) to scale the number of pods within a deployment/VM/EC2 instance
+- Use replica set to run multiple copies of pod & horizontal autoscaler
+- Use cluster overprovisioner to provision new nodes
+- If using ALB ingress, pre-warm the ALBs
+- Use database proxy (like RDS proxy) to handle the connections to databases
+- Increase account limits early
