@@ -32,4 +32,12 @@
 
 - User > (Read) EC2 > (Cache hit) ElastiCache > (Cache miss then read from database) Aurora
 - Only requested data is cached
-- 
+- Data can become stale
+
+
+## Write Through
+
+- User > (Write) EC2 > (Write to cache) ElastiCache > (Write to database) Aurora
+- Data can not become stale
+
+Both can be used together in different parts of the system. For example, write through can be used for user data and lazy loading can be used for product catalog data.
