@@ -3,7 +3,7 @@ package main
 import (
 	_ "embed"
 	"fmt"
-	"github.com/moabukar/aoc-2023/utils/"
+	"github.com/moabukar/playground/aoc-2023/utils"
 	"strings"
 	"time"
 )
