@@ -1,4 +1,4 @@
-# High availability
+# High availability & Fault Tolerance
 
 - System continues to operate even if some of its components fail
 - System guarantees certain percentage of uptime
@@ -24,4 +24,4 @@
 
 - In fault tolerant architecture not only is the system HA but performance does not degrade even when a component fails
 - Fault tolerance is generally more expensive than HA systems
-
+- High availability ensures system will keep serving traffic even if one availability zone goes down. Fault tolerant ensures the application can support same transactions per second even if one availability zone goes down
