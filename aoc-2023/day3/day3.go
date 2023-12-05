@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	// "github.com/pemoreau/advent-of-code/go/utils"
-	"github.com/moabukar/playground/aoc-2023/utils"
+	// "./utils"
+	utils "github.com/moabukar/playground/aoc-2023/utils"
 )
 
 //go:embed input.txt
