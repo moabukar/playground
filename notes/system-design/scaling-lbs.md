@@ -83,3 +83,9 @@ Average answer: Put VMs in an Auto scaling group behind an elastic load balancer
 - If using ALB ingress, pre-warm the ALBs
 - Use database proxy (like RDS proxy) to handle the connections to databases
 - Increase account limits early
+
+## Question:
+
+How can you divert traffic for a specific domain (www.xyz.com) to a particular ALB? 
+
+- Create an "A" record in Route 53 and divert any traffic for www.xyz.com to the ALB
