@@ -7,7 +7,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 resource "aws_ecs_task_definition" "task_definition" {
   # family if required
   family                = "worker"
-  container_definitions = file("./container_specs.json")
+  container_definitions = file("./container_spec.json")
 }
 
 
