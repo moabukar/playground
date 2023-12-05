@@ -1,8 +1,8 @@
 
 resource "aws_db_subnet_group" "default" {
-  name       = "main"
+  name = "main"
   # MYSQL ON PRIVATE SUBNET
-  subnet_ids = [module.network.subnet_id_pr1,module.network.subnet_id_pr2]
+  subnet_ids = [module.network.subnet_id_pr1, module.network.subnet_id_pr2]
 
   tags = {
     Name = "My DB subnet group"
