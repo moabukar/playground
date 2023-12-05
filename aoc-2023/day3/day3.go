@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pemoreau/advent-of-code/go/utils"
+	// "github.com/pemoreau/advent-of-code/go/utils"
+	"github.com/moabukar/playground/aoc-2023/utils"
 )
 
 //go:embed input.txt
@@ -103,11 +104,9 @@ func Part2(input string) int {
 }
 
 func main() {
-	// start := time.Now()
-	fmt.Println("Part 1: ", Part1(inputDay))
-	// fmt.Println(time.Since(start))
 
-	// start = time.Now()
+	fmt.Println("Part 1: ", Part1(inputDay))
+
 	fmt.Println("Part 2: ", Part2(inputDay))
-	// fmt.Println(time.Since(start))
+
 }
