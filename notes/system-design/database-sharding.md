@@ -27,4 +27,3 @@ Generally utilie a couple of other techniques before sharding:
 
 - Caching
 - Create more read replicas
-- 
