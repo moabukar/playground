@@ -3,24 +3,61 @@ package main
 import (
 	_ "embed"
 	"fmt"
-	"github.com/pemoreau/advent-of-code/go/utils"
+
 	// "github.com/moabukar/playground/aoc-2023/utils"
 	"strings"
-
 )
 
 //go:embed input.txt
 var inputDay string
 
+type Set[T comparable] map[T]struct{}
+
+func NewSet[T comparable]() Set[T] {
+	return make(Set[T])
+}
+func (s Set[T]) Add(value T) {
+	s[value] = struct{}{}
+}
+
+func (s Set[T]) Contains(value T) bool {
+	_, ok := s[value]
+	return ok
+}
+
+func (s Set[T]) Len() int {
+	return len(s)
+}
+
+func (s Set[T]) Intersect(other Set[T]) Set[T] {
+	res := NewSet[T]()
+	if s.Len() < other.Len() {
+		for elem := range s {
+			if other.Contains(elem) {
+				res.Add(elem)
+			}
+		}
+	} else {
+		for elem := range other {
+			if s.Contains(elem) {
+				res.Add(elem)
+			}
+		}
+	}
+	return res
+}
+
+////////////////////////////////////////
+
 func winning(line string) int {
 	split := func(c rune) bool { return c == ':' || c == '|' }
 	fields := strings.FieldsFunc(line, split)
 
-	var winningNumbers = utils.NewSet[string]()
+	var winningNumbers = NewSet[string]()
 	for _, n := range strings.Fields(fields[1]) {
 		winningNumbers.Add(n)
 	}
-	var numbers = utils.NewSet[string]()
+	var numbers = NewSet[string]()
 	for _, n := range strings.Fields(fields[2]) {
 		numbers.Add(n)
 	}

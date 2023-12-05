@@ -1,5 +1,7 @@
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/moabukar/playground/aoc-2023 v0.0.0-20231205120815-087939707cf1 h1:+Z+iCIXN2l6qqVQx+aFzH0ktjk2E9a4QK0h/wzINw38=
+github.com/moabukar/playground/aoc-2023 v0.0.0-20231205120815-087939707cf1/go.mod h1:rsZ3VxjS0cN27ZAfUrxPNecjaS0NZA9xduXPVwEjfd0=
 github.com/oleiade/lane/v2 v2.0.0 h1:XW/ex/Inr+bPkLd3O240xrFOhUkTd4Wy176+Gv0E3Qw=
 github.com/oleiade/lane/v2 v2.0.0/go.mod h1:i5FBPFAYSWCgLh58UkUGCChjcCzef/MI7PlQm2TKCeg=
 github.com/pemoreau/advent-of-code/go v0.0.0-20231204141552-2985b018b25e h1:hWxdLs3nJ4HSqgBA8ttg477i+RUcCSEnUne5pct2lko=
