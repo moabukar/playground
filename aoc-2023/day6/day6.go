@@ -68,7 +68,7 @@ func Part2(input string) int {
 }
 
 func main() {
-	fmt.Println("part1: ", Part1(inputDay))
+	fmt.Println("Part 1: ", Part1(inputDay))
 
-	fmt.Println("part2: ", Part2(inputDay))
+	fmt.Println("Part 2: ", Part2(inputDay))
 }
