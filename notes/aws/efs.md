@@ -12,4 +12,5 @@
 - The mount targets have IP addresses taken frm the IP address range of the subnet they're in. To ensure HA, put mount targets in multiple AZs.
 - Just like NAT GWs, for a fully HA system you need to have a mount target in every AZ that a VPC uses.
 - It's these mount targets that instances use to connect to the EFS file systems.
-- EFS is only for Linux only
+- EFS is only for Linux only. 2 classes, standard & infrequent access. You also have lifecycle policies. 
+- 
