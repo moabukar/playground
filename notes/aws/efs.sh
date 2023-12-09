@@ -12,7 +12,7 @@ file-system-id:/ /efs/wp-content efs _netdev,tls,iam 0 0
 sudo mount /efs/wp-content
 df -k
 cd /efs/wp-content
-sudo touch amazingtestfile.txt
+sudo touch testfile.txt
 
 # INSTANCE B
 
