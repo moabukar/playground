@@ -3,10 +3,9 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
-
-	"github.com/moabukar/playground/aoc-2023/utils"
 )
 
 //go:embed input.txt
@@ -27,7 +26,7 @@ func derive(h history) []history {
 	var res = []history{h}
 	var last = h
 	for !last.allZero() {
-		var next history
+		var next history = make([]int, 0, len(last)-1)
 		for i := 1; i < len(last); i++ {
 			next = append(next, last[i]-last[i-1])
 		}
@@ -57,11 +56,13 @@ func solve(input string, nextFunc func([]history) int) int {
 	input = strings.TrimSuffix(input, "\n")
 	lines := strings.Split(input, "\n")
 
+	var h history = make([]int, 0)
 	var res int
 	for _, line := range lines {
-		var h history
+		h = h[:0] // set len to 0
 		for _, v := range strings.Fields(line) {
-			h = append(h, utils.ToInt(v))
+			n, _ := strconv.Atoi(v)
+			h = append(h, n)
 		}
 		res += nextFunc(derive(h))
 	}
@@ -79,7 +80,7 @@ func Part2(input string) int {
 
 func main() {
 	start := time.Now()
-	fmt.Println("Rart 1: ", Part1(inputDay))
+	fmt.Println("Part 1: ", Part1(inputDay))
 	fmt.Println(time.Since(start))
 
 	start = time.Now()
