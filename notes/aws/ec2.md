@@ -65,4 +65,15 @@
 - So AMI baking is used when you want to bake into an AMI all the time consuming parts of an installation or configuration.
 - The trade off is that it's harder to adjust things once they're AMI baked
   - You can solve this by running a pipeline which creates new AMIs weekly or daily. 
-- 
+- You can acheive good results by combining both processes.
+
+### Combination Architecture (combining both bootstrapping and AMI baking):
+
+- Provision a base EC2
+- Perform the time consuming part of the app install.
+  - Create an AMI from that saving that time
+- Customise baked AMI at launch time using user data.
+  - Any custom config or any sensitive data that you don't want to leave on an AMI, you can use user data and bootstrapping add this at launch time as you launch multiple instances from the AMI.
+- And with this, you can get fast provisioning time by using AMI baking. So you bake any time consuming parts into the AMI 
+- So essentially AMI Baking for the bigger instance stuff and bootstrap custom config by using bootstrapping at launch time using user data.
+- This architecture is often used in production
