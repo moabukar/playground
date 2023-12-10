@@ -43,3 +43,19 @@
 - LBs are configured via listener configurations and it controls WHAT the LBs listen to.
 - LBs require 8+ free IPs per subnet and a /27 or larger subnet to allow for scaling. Strictly speaking, you need a /28 subnet would be enough but AWS suggests a /27 subnet. 
 
+## User Session State
+
+- Server-side piece of information
+- Persists while you interact with the app
+- Shopping cart, workflow position or login state
+- Session state loss = Bad user user experience (UX) or issues
+- Session state stored on a server or externally. If session state is stored externally, then those servers are stateless.
+
+### Why session state matters:
+
+- User A is browsing amazon.com. Imagine the app is running through an ELB. 
+  - The ELB's job is to abstract User A from the underlying infrastructure.
+  - And the 2nd function of the LB is to distribute the request across all the registered compute.
+
+- Assume user A connects to instance 2 and assume user A browses the site and adds items to the cart. But he needs to get his card to order. So user A's session data is stored on instance 2. Let's say instance 2 fails, the LB is smart enough to immediately re-route the connection to instance 1. So instance 1 has a different set of user session data and so user A loses his cart and potentially gets logged out. 
+- 
