@@ -36,3 +36,33 @@
   - So you have loads of flexibility by creating architectures using multiple network interfaces.
 
 
+## Bootstrapping vs AMI baking
+
+- Ready for Service Lag (total time between when the ASG requests additional compute instances from EC2 and at the point at which they're ready to serve traffic). As an SA, You should aim to minimise or avoid this period as much as possible as it's what causes a disruption to the service or a bad user experience.
+-  App installation architecture
+   -   Base installs (very slow and generic)
+       -  It doesn't change often between environments, we need to optimise for speed. So minimise the amount of time it takes for the base installation of the app in some way.
+   -   App updates (not fast and mostly generic)
+       -   
+   -   App config (fast but unique across diff envmts)
+       - Aim to maintain flexibility since it's already fast. Flexibility is what will allow us to deploy to different clients, environments and regions. So customisation is the focus. 
+
+### How can we reduce ready for service lag?
+
+#### Bootstrapping
+
+- Not that fast but super flexible
+- Provision an EC2 instance and add a user data script to it. This script will run when the instance is launched. Using a system called cloud init, the script can be used to install and configure the app.
+- Flexible process but takes time. 
+- 
+
+#### AMI Baking
+
+- Launch a master EC2 instance. Perform the time consuming tasks such as installing the app and configuring it. You can do bootstrapping here too to get to this ready state. Then once the EC2 is ready, create an AMI from that instance.
+- Now, you can use an AMI to create any number of instances quickly & ready to go.
+- Because we front-loaded all the time consuming work, time taken to provision EC2 instances is greatly reduced compared to bootstrapping.
+- Essentially, using this custom AMI, the provisiong time is the same as if you were using a normal AMI.
+- So AMI baking is used when you want to bake into an AMI all the time consuming parts of an installation or configuration.
+- The trade off is that it's harder to adjust things once they're AMI baked
+  - You can solve this by running a pipeline which creates new AMIs weekly or daily. 
+- 
