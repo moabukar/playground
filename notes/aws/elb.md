@@ -58,4 +58,4 @@
   - And the 2nd function of the LB is to distribute the request across all the registered compute.
 
 - Assume user A connects to instance 2 and assume user A browses the site and adds items to the cart. But he needs to get his card to order. So user A's session data is stored on instance 2. Let's say instance 2 fails, the LB is smart enough to immediately re-route the connection to instance 1. So instance 1 has a different set of user session data and so user A loses his cart and potentially gets logged out. 
-- 
+- With externally hosted sessions, the data for session state is stored on an external system. 
