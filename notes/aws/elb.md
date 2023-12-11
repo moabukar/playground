@@ -58,4 +58,66 @@
   - And the 2nd function of the LB is to distribute the request across all the registered compute.
 
 - Assume user A connects to instance 2 and assume user A browses the site and adds items to the cart. But he needs to get his card to order. So user A's session data is stored on instance 2. Let's say instance 2 fails, the LB is smart enough to immediately re-route the connection to instance 1. So instance 1 has a different set of user session data and so user A loses his cart and potentially gets logged out. 
-- With externally hosted sessions, the data for session state is stored on an external system. 
+- With externally hosted sessions, the data for session state is stored on an external system. This results in instances which are stateless and this means that the failure of any instance no longer represents something that's important from a UX perspective.
+- So if user A connects to the ELB to instance 2, the LB will move user A's connections between any registered instances at random since the sessions state isn't stored on the instances. 
+- With externally hosted sessions, any connection to any available app instance will have access to that same shared session data. 
+
+## ALB vs NLB
+
+### ALB
+
+- L7, listens on HTTP/HTTPS
+- Can't understand no other layer 7 protocols (SMTP, FTP, gaming protocols etc.)
+- ... and no TCP/UDP/TLS listeners
+- L7 content type, cookies, custom headers, user location, app behaviour
+- HTTP/HTTPS (SSL/TLS) is always terminate on the ALB - you can't have no unbroken SSL 
+  - ... a new connection is made from the LB
+  - so it can't do end-to-end unbroken SSL encryption between client and your application instances
+  - ALBs must also have SSL certs installed on the LB if HTTPS is used. Because connection has to be terminated on the LB and a new connection made to the instances
+- ALBs are generally slower than NLBs... more levels of the network stack to process
+- Health checks evaluate application health, layer 7
+
+Rules
+- Rules direct connections which arrive at a listener
+- Processed in priority order
+- Default rule = catch all
+- Rule conditions: host-header, http-header, http-request-method, path-pattern, query-string & source-ip
+- Rule actions: forward, redirect, fixed-response, authenticate-oidc, authenticate-cognito
+
+Example: 
+- Catagram.io has a rule using using host-header as a condition and forward as an action.
+- Another user wants to access our app from an IP 1.3.3.7 
+  - We can define a listener rule. 
+  - This time the condition is source-ip and the action is forward traffic to a separate target group, an ASG.
+  - Because the ALB is a layer 7 device, it can see inside the HTTP protocol and make decisions based on anything within that protocol or anything up to layer 7.
+- Important note: For an ALB, connections are terminated on the ALB and a new set of connections are made from ALB to ASG. 
+  - There's no option to pass through the encrypted connection to the instances, it has to be terminated.
+  - If you have to forward encrypted traffic to the instances without terminating them on the LB, you need to use an NLB.
+- Because ALBs are layer 7, You can route traffic based on rules that work with layer 7 elements of the protocol or route based on paths or anything else in the HTTP protocol such as headers
+- You can also redirect traffic from a HTTP level. 
+
+### NLB
+
+- Layer 4 LB, listens on TCP, UDP, TLS
+- No visibility or understanding of HTTP/HTTPS
+- No headers, no cookies, no sessions stickiness
+- Really really fast (millions of rps, 25% of ALB latency)
+- SMTP, SSH, game server, financial apps (not http/s)
+- Health checks JUST check ICMP/TCP handshake... not app aware
+- NLBs can have static IPs - useful for whitelisting
+- Forward TCP to instances - unbroken encryption
+  -  They can forward TCP straight through to instances
+  -  Upper layers like HTTP/S, layer 5, 6 are built on layers below them. So because the NLB doesn't understand HTTP or HTTPS, then you can configure a listener to accept TCP-only traffic and forward it straight through to the instances.
+  -  That means that any of the layers that are built on top of TCP, like HTTP/S, are unbroken and not terminated on the LB. So the connection is encrypted all the way through to the instances. So you can essentially forward unbroken channels of encryption to the instances.
+  -  So NLBs and TCP listeners is how you can do unbroken end-to-end encryption between the client and the instances.
+- NLBs are also used for private link to provider services to other VPCs
+
+
+ALB vs NLB
+
+- Unbroken encryption: NLB
+- Static IP for white listing: NLB
+- The fastest performance & low latency (million rps): NLB
+- Protocols not HTTP/S: NLB
+- Privatelink: NLB
+Otherwise, ALB!
