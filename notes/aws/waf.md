@@ -48,4 +48,39 @@ Basic Pricing:
 - Captcha ($0.4 per 1000 challenge attempts)
 - Fraud Control/Account Takeover ($10/ month & $1 per 1000 login attempts)
 - Marketplace rule groups (extra costs)
+ 
+
+# Shield
+
+- Shield Standard (Free) & Advaned (DDoS protection) (costs)
+- DDos attacks
+  - Network volumetric attacks (L3) - Saturate capacity
+  - Network protocol attacks (L4) - TCP SYN Flood ()
+    - Generate a number of connections from a spoofed IP address
+    - and leave connections open, prevent news ones - so never terminating them
+    - Network protocol attacks can be combined with volumetric attacks (so L3 + L4)
+  - Application layer attacks (L7) - like web request floods
 - 
+
+## Shield Standard
+
+- Free & protection at the permiter (so at region/VPC or at the edge)
+- Protects against common network and transport layer attacks (L3 or L4)
+- You get best protection if you use Route 53, CloudFront and Global Accelerator
+
+## Shield Advanced
+
+- $3,000 per month (per org), 1 year lock-in + data (OUT)/m (so for 1 year, you pay $36,000 per month)
+- Protects CF, R53, Global Accelerator, anything associated with EIPs (so like EC2, ALBs, NLBs and CLBs)
+- Not automatic - must be explicitly enabled in shield advanced or AWS Firewall manager shield advanced policy
+- Cost protection (EC2 scaling) for unmitigated attacks (if you as a customer incur any costs for any attacks which should be mitigated by shield advanced but aren't, then you are protected against those costs)
+  - Example might be EC2 scaling events caused by excessive load
+- Proactive engagement & AWS Shield Response Team (SRT)
+- 
+
+- WAF integration - includes basic AWS WAF feeds for web ACLs, rules and web requests 
+- App layer L7 DDoS protection (uses WAF)
+- Real time visibility of DDoS events and attacks
+- Health-based detection - app specific health checks, used by proactive engagement team (to help reduce false positives detected by AWS Shield)
+- Protection groups to create groupings of resources which Shield advanced protects
+
