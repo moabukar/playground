@@ -29,4 +29,22 @@
   -  These 3 fields (Dest MAC address, Source MAC address, Ethertype) are called the MAC header of the frame.
   -  After the header, it's the payload. It contains the data that the frame is sending. The data is generally provided by the layer 3 protocol. This process is called encapsulation. You have something which layer 3 generates, often this is an IP packet and it's put inside an ethernet frame. It's encapsulated in that frame. The frame delivers that data to a different layer 2 destination. 
   -  At the end of the frame is the frame check sequence which is used to identify any errors in the frame. 
+- Using a HUB (let's say we have 4 devices connected to a HUB) - a hub is a layer 1 device. The data can have collisions. What you need is a switch. 
+  - A switch is a layer 2 device. Works the same way physically as a HUB but it understands layer 2.
+  - It maintains a MAC address table. Switches over tie learn what's connected to each port. When a switch sees frames, it can interpret frames, it can intercept them and see the source and destination MAC addresses. So over time, with this network, the MAC address table will be populated with each of the devices. So the switch will store the MAC addresses it sees on a port and the port itself. 
+  - Switches are intelligent. They don't just repeat the physical level. They interpret the frames and they can make decisions based on the source and destination MAC address table.
+  - So switches store and forward frames. It doesn't repeat like a dumb layer 1 device. It means it wont forward collisions. In fact, each port on the switch is a separate collision domain. So if there's a collision on one port, it won't affect the other ports. The switch will not forward that corrupted data to the other ports.
+  - Layer 2 is the foundation for all networks which we use day to day. It's how our wired networks work. It's how our wifi networks work. It's how the internt works which is a huge collection of interconnected layer 2 networks.
+  - The name itself stands for an inter-network of networks.
+
+### Summary of when adding layer 2
+
+- Identifiable devices using MAC addresses. Allows for device to device comms
+- Media access control (sharing) - devices can share media in a nice way - avoiding collisions and cross talk
+- Collision detection (when using switches)
+- Unicase 1:1, Broadcast 1:All, Multicast 1:Many
+- We have switches - basically like hubs but with super powers (layer 2) which are more intelligent and can make better decisions compared to layer 1 - ability to scale and avoid collisions
+
+## Layer 3 - Network
+
 - 
