@@ -79,4 +79,22 @@
 - Data
 - Hop limit (like TTL)
 - And other stuff...
+  
+### IP addressing (v4)
+
+- Example: 133.33.3.7
+  - 133.33 is the 'network' part
+  - 3.7 is the 'host' part which represents hosts on that network
+  - In this case, 3.7 is laptop on the network 133.33
+- Note: If the network part of the IP address match between 2 different IP addresses, they are on the same IP network. If they don't match, they are on different IP networks.
+- Each part is 8 bits. So 4 parts = 32 bits. This is why IPv4 is 32 bits. Each 8 bit part is called an octet.
+- So for example: 133.33.3.7 and 133.33.33.37
+  - They are on the same network because the first 2 octets match
+  - They are different hosts because the last 2 octets are different
+- Now IP addresses are either statically assigned by huamns which is known as static IP addressing or they are assigned dynamically/automatically by a service called DHCP (Dynamic Host Configuration Protocol). So the servers on your network running DHCP server software will automatically assign IP addresses to devices on your network. This is known as dynamic IP addressing.
+
+### Subnet Masks
+
+- A subnet mask is configured on a host device in addition to an IP address e.g. 255.255.0.0 & this is the same as a /16 prefix.
+- Subnet masks are used to identify the network & host part of an IP address.
 - 
