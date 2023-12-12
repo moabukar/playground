@@ -47,4 +47,36 @@
 
 ## Layer 3 - Network
 
+- Let's say you have LAN 1 and LAN 2 which are isolated networks. Devices on each local network can communicate with each other but not outside of that layer 2 network
+  - Ethernet is a layer 2 protocol. Generally used for local networks. Long distance point to point connections are not possible with ethernet and will use more suitable protocols like PPP (Point to Point Protocol), MPLS (Multi Protocol Label Switching), Frame Relay, ATM (Asynchronous Transfer Mode)
+  - Layer 2 is the layer of the OSI stack which moves frames. Moving frames from a local source to a local destination.
+  - So to move data between different local networks, which is known as inter-networking, this is where the internet comes from, we need layer 3
+- Layer 3 adds the internet protcol or IP. You get IP addresses which across networking addresses which you can assign to devices and these can be used to communicate between different local networks using routing.
+- IP packets are moved source to destination across the internet through many intermediate networks. Devices called routers which are layer 3 devices are used to move IP packets across different networks.
+- They encapsulate IP packets into layer 2 ethernet frames. So they take the IP packet and put it into a layer 2 frame. 
+- Encapsulaton here means that an IP packet is put inside an ethernet frame for that part of the journey.
+
+### IP & Packets
+
+- Packets in many ways are similar to frames. They contain data to be moved and they have a source and dest address. With frames, both the source and dest address are moved across a LAN. With IP packets, the source and dest address are moved across the internet and could be on opposite sides of the planet.
+
+### Packet structure of IPv4 vs IPv6
+
+#### IPv4
+
+- Every packet has a source and destination IP address
+- Protocol field (which is layer 4) like ICMP, TCP, UDP
+  - If you're storing TCP data inside a packet, this value will be 6
+  - If you're storing UDP data inside a packet, this value will be 17
+  - If you're storing ICMP data inside a packet, this value will be 1
+- Bulk of the field within a packet is taken up by the data. 
+- A field called TTL
+- And other stuff too..
+
+#### IPv6
+
+- Source & IP (Bigger & therefore, larger addresses)
+- Data
+- Hop limit (like TTL)
+- And other stuff...
 - 
