@@ -98,3 +98,23 @@
 - A subnet mask is configured on a host device in addition to an IP address e.g. 255.255.0.0 & this is the same as a /16 prefix.
 - Subnet masks are used to identify the network & host part of an IP address.
 - 
+
+
+## Route Tables & Routes 
+
+- Example of packet moving between routers
+  - Home > ISP >  AWS/Upstream ISP/Netflix (Remote networks)
+  - Create a packet on our local device which has our IP and the source IP address
+  - Default route 0.0.0.0/0 sends all packets to ISP
+  - Your packet that was generated is now in the router that has multiple network interface cards connecting to all of the remote networks (AWS/Netflix/Upstream ISP)
+  - The ISP uses route tables to forward packets/data to remote networks. Every router will have at least 1 route table
+  - A route table is a collection of routes: Destination to Next hop/target
+  - Packets are routed, hop by hop across the internet. From source to destination. Router compares packet destination IP and route table for matching destinations. The more specific prefixes are preferred (0 lowest, 32 higher). Packet is forwarded to next hop/target. This process is repeated until the packet reaches the destination.
+  - Routers can be statically populate or there are protocols such as BGP (border gateway protocol) which allow routers to communicate with each other to exchange which networks they know about and this is how the core of the internet functions
+  - Important note: when our ISP router is forwarding the packet through to the AWS router, it's forwarding at layer 2
+  - It wraps the packet in a frame. The packet doesn't change. The frame though, it has the AWS router's MAC address as its destination. But how do we determine the MAC address of the AWS router here?
+  - We use something called the ARP (Address Resolution Protocol) Continued below!
+
+## ARP (Address Resolution Protocol)
+
+- 
