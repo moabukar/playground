@@ -1,0 +1,23 @@
+http:
+  routers:
+    both-router:
+      rule: "Host(`both.mo-sandbox.sandbox.<hosted_zone>.services`)"
+      entryPoints:
+        - http
+      service: app
+  services:
+    nginx:
+      loadBalancer:
+        servers:
+          - url: "http://nginx.mo-sandbox.sandbox.<hosted_zone>.services/"
+    apache:
+        loadBalancer:
+            servers:
+            - url: "http://apache.mo-sandbox.sandbox.<hosted_zone>.services/" 
+    app:
+      weighted:
+        services:
+        - name: nginx
+          weight: 4
+        - name: apache
+          weight: 1
