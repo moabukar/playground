@@ -29,13 +29,13 @@ resource "aws_security_group" "nginx" {
     self        = true
   }
 
-  # ingress {
-  #   description = "Open to all - testing only"
-  #   from_port   = 80
-  #   to_port     = 80
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
+  ingress {
+    description = "HTTP from private ranges"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+  }
 
   egress {
     from_port        = 0
@@ -183,13 +183,13 @@ resource "aws_security_group" "apache" {
     self        = true
   }
 
-  # ingress {
-  #   description = "Open to all - testing only"
-  #   from_port   = 80
-  #   to_port     = 80
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
+  ingress {
+    description = "HTTP from private ranges"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+  }
 
   egress {
     from_port        = 0

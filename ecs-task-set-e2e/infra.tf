@@ -74,7 +74,7 @@ resource "aws_route53_record" "discovery_namespace" {
   name            = "${local.name}.sandbox.<hosted_zone>.services"
   type            = "NS"
   ttl             = 300
-  records         = data.aws_route53_zone.sandbox_<hosted_zone>_services.name_servers
+  records         = data.aws_route53_zone.sandbox_ < hosted_zone > _services.name_servers
 }
 
 
