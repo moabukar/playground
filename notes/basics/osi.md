@@ -148,3 +148,8 @@ Example of ARP:
 - IP doesn’t provide method for channels of comms (SRC IP to DST IP only)
 - Layer 3 provides packets and packets only have source and dest IP. So if we have 2 devices, you can only have one stream of comms. So you can’t have different apps on the devices communicating at the same time. And this limitation is solved by layer 4.
 - In theory, packets can be delivered out of order. No guarantee it will take the same route
+
+
+# Layer 4 - Transport
+
+- 
