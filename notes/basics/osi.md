@@ -152,4 +152,19 @@ Example of ARP:
 
 # Layer 4 - Transport
 
-- 
+## Layer 3 problems
+
+- Each IP packet on layer 3 is routed independently and isolated from each packet
+    - you might think that all IP packets arrive in proper order and good conditions but no:
+        - you’re going to have intermittent network conditions
+        - packets can arrive in diff conditions and they can be out of order
+- Layer 3, specifically IP, providers no method to ensure the ordering of packet arrival and packets can go missing. This can be due to network outages or network conditions which cause temporary routing loops.
+- This is the negative of layer and it is solved by Layer 4. With IP only, there is no reliable method of ensuring packet delivery
+- Another issue with layer 3 is that if you think back to the structure of IP packets, they have a source and destination field and nothing beyond that to distinguish channels of communication like ports which are solved in layer 4. Packets have only source IP and destination IP, theres is no method of splitting by APP or CHANNEL like ports.
+    - You can’t have 2 apps running on the source IP communicating with 2 apps on the destination IP as there is no method of distinguishing between the apps.
+    - You could have an SSH connection open as well as a HTTP request running in the background.
+- IP also has no flow control: if the source transmits faster than the destinaition can receive, it can sautrate the destination causing packet loss.
+
+### Layer 4 - how does this solve the problem?
+
+- TCP & UDP
