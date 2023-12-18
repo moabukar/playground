@@ -165,6 +165,64 @@ Example of ARP:
     - You could have an SSH connection open as well as a HTTP request running in the background.
 - IP also has no flow control: if the source transmits faster than the destinaition can receive, it can sautrate the destination causing packet loss.
 
-### Layer 4 - how does this solve the problem?
+## Layer 4 - how does this solve the problem?
 
-- TCP & UDP
+- In layer 3, we had IP address and routing. Routed packets across a network of networks
+- Layer 4 builds on top of this: It adds 2 new protocols which are TCP & UDP
+    - Both of these run on top of IP. If you have heard TCP/IP - this means TCP running on top of IP. At a high level, you would pick TCP when you want reliability and error correction and ordering of data (slower and reliable)
+        - It’s used for most of the important application layer protocols such as HTTP, HTTPS, SSH etc
+        - TCP is a connection-oriented protocol which means you set up a connection between 2 devices and once set up, it creates a bidirectional channel of communication
+    - UDP, on the other hand, is faster, because it doesn’t have the TCP overhead required for the reliable delivery of data. It’s less reliable than TCP
+        - There’s a great joke about UDP: I’d tell you about it…. but you might not get it 😁
+- Both TCP and UDP run on top of IP. They use IP as transit. TCP just offers a more reliable connection oriented architecture whereas UDP is all about performance
+- TCP introduces something called TCP segments. Segments are encapsulated within IP packets. TCP segments are placed inside IP packets. And the packets carry the segments.
+    - Segments dont have SRC and DST IP - the packets provide device addressing
+    - Inside a TCP segment, you now have SRC port and DST port in addition to SRC IP and DST IP. And this gives the combined TCP/IP protocol. Giving the ability to have multiple streams of conversation or apps running in 1 IP or machine at the same time between 2 devices
+    - Inside segments you also have sequence number and is a way of uniquely identifying a particular segment and for ordering purposes
+    - You also have acknowledgements. It is a way that one side can indicate it’s received. Every segment transmitted needs to be acknowledged.
+    - You also have windows: this defines the number of bytes that indicate that you’re willing to receive between acknowledgements. Once reached, the sender will pause until you acknowledge that amount of data and this is how flow control is implemented. It allows the receive to control the rate at which the sender sends the data.
+        - If you use a smaller window, it provides additional levels of control over how quickly you’re sent data
+        - Larger windows are more efficient because the header of a TCP segment takes up an amount of space, and the smaller the window, the more headers are involved.
+    - Checksums are used for error checking: it means that the TCP layer is able to detect errors and can arrange for retransmission of the data as required
+    - There are more fields inside a TCP segment but the above mentioned are the most important
+    - All these field together are known as the TCP header. The capacity of the TCP segment remaining is used for data.
+
+### TCP Architecture
+
+- TCP, like IP, is used to allow communications between 2 devices.
+- TCP is a connection based protocol. A connection is established between two devices using random port on a client and a known port on the server. Once established the connection is bi-directional. The “connection” is a reliable connection, provided via the segments encapsulated in IP packets.
+- You have L3 packets which have no error checking, no ordering, no association.
+- Now you have a game laptop and a game server. The game server (the client) uses tcp port 23060 and communicates with the server on tcp port 443
+    - This is a communication channel. TCP connections are bidirectional and this means the server will send data back to the client. To do this, it just flips the ports: so the SRC port is TCP 443 on the server and the destination port on the client is 23060.
+    - And it’s why you need two sets of rules on a NACL with in AWS. One set for the initiating part (laptop to server) and one set for the response part (server to laptop)
+    - This can be conceptually viewed as a channel. These channels aren’t real, they are created using segments.
+    - When you hear the term ephemeral ports or high ports, this means the port range that the client picks as the source port. Often you need to add firewall rules allowing all of this range back to the client.
+
+### TCP 3 way handshake
+
+- In the TCP segment structure, there’s something called “Flags n things”
+- Flags which can be used to set to alter the connection. e.g. FIN can be used to close, ACK for acknowledgements, syn to sync between sequence numbers
+
+- So you have a client and a server:
+    - Before any data can be transferred through TCP, a connection needs to be established and this uses a 3 way handshake
+    - So in step 1, the client needs to send a segment to the server. This segment contains a random sequence number. Send a segment with SYN
+    - The server responds back with another random sequence number and sends a segment called SYN & ACK.
+    - The server then sends back a segment with ACK for acknowledge
+    - Now a connection is established and client and server can both send data
+
+### Sessions & State (Layer 5?)
+
+- Stateless firewall (using the same client and game server example with 2 connections)
+    - It doesn’t understand the state of a connection.
+    - With a stateless firewall, you need 2 rules. A rule allowing the outbound segments and another rule for the inbound of segments from the game server
+        - Outbound =  (Laptop IP & tcp/23060) >> (Server IP & tcp/443)
+        - Inbound/Response = (Server IP & tcp/443) >> (Laptop IP & tcp/23060)
+        - And these are basically what network access control lists are (aka NACLs)
+        - Essentially a stateless firewall which needs 2 rules for each TCP connection in both directions.
+- Stateful firewall
+    - A stateful firewall is different. This understands the state of the TCP segments.
+    - With this, it sees the initial traffic and the response traffic as one thing.
+        - Outbound = (Laptop IP & tcp/23060) >> (Sever IP & tcp/443)
+        - Allowing the outbound implicitly allows the inbound responses
+        - In AWS, this is known as security groups aka SGs.
+- The difference is that a stateful firewall understands layer 4 and the state of traffic. It’s an extension of what a stateless firewall can achieve. Strictly speaking, the concept of sessions or an ongoing communication between 2 devices is layer 5.
