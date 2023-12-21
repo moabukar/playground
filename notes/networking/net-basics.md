@@ -570,3 +570,20 @@ What is Nginx?
     - just like a tunnel - the nginx does not decrypt any data
     - no cahcing, L4 check only but more secure. NGINX doesn’t need the backend cert here.
         - here you cant cache coz the nginx cant see the L7 content anymore. so only pure L4 checks only
+
+### Stateless vs Stateful firewalls
+
+- Client to server comms
+    - Req is outbound from the CLIENT perspective
+    - Req is inbound from the SERVER perspective
+- Stateless firewall
+    - A stateless firewall means it doesn’t understand the state of connections
+    - It sees the request and response as two separate parts
+    - So you need to think about allowing and denying as two parts. So 1 inbound rule and 1 outbound rule.
+    - Note: We always use a random ephemeral port for the client. Because the firewall is stateless, it has no way of knowing which specific port is used for the response. So you’ll often have to allow the full range of ephemeral ports to any destination. This makes security engineers uneasy. Which is why stateful firewalls are much better.
+- Stateful firewall
+    - A stateful firewall is intelligent enough to identify the REQUEST and RESPONSE components of a connection as being related. Stateful means lower admin overhead.
+    - You also don’t need to allow the full ephemeral port range because the firewall can identify which port is being used and implicitly allow based on it being the response to a request that you allow.
+
+
+

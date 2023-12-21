@@ -212,17 +212,19 @@ Example of ARP:
 
 ### Sessions & State (Layer 5?)
 
-- Stateless firewall (using the same client and game server example with 2 connections)
+- **Stateless firewall** (using the same client and game server example with 2 connections)
     - It doesn’t understand the state of a connection.
     - With a stateless firewall, you need 2 rules. A rule allowing the outbound segments and another rule for the inbound of segments from the game server
         - Outbound =  (Laptop IP & tcp/23060) >> (Server IP & tcp/443)
         - Inbound/Response = (Server IP & tcp/443) >> (Laptop IP & tcp/23060)
         - And these are basically what network access control lists are (aka NACLs)
         - Essentially a stateless firewall which needs 2 rules for each TCP connection in both directions.
-- Stateful firewall
+
+- **Stateful firewall**
     - A stateful firewall is different. This understands the state of the TCP segments.
     - With this, it sees the initial traffic and the response traffic as one thing.
         - Outbound = (Laptop IP & tcp/23060) >> (Sever IP & tcp/443)
         - Allowing the outbound implicitly allows the inbound responses
         - In AWS, this is known as security groups aka SGs.
+
 - The difference is that a stateful firewall understands layer 4 and the state of traffic. It’s an extension of what a stateless firewall can achieve. Strictly speaking, the concept of sessions or an ongoing communication between 2 devices is layer 5.

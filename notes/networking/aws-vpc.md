@@ -263,7 +263,7 @@ Private Subnets
 
 ### Site to Site VPN (AWS Managed VPN)
 
-- on-premises: 
+- On-premises: 
   - Setup a software or hardware VPN appliance to your on-premises network. 
   - The on-premises VPN should be accessible using a public IP •
 
