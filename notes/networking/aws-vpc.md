@@ -19,8 +19,15 @@ Public IP
 
 - A VPC must have a defined list of CIDR blocks, that cannot be changed 
 - Each CIDR within VPC: min size is /28, max size is /16 (65536 IP addresses) 
-- VPC is private, so only Private IP CIDR ranges are allowed 
-  
+- VPC is private, so only Private IP CIDR ranges are allowed
+
+#### VPC Structure (Example)
+
+- Split VPC into 4 in 1 region (3 AZs + 1 spare)
+- And in all these, you have web tier, app tier, db tier and spare
+- This creates 4 * 4 = 16 subnets in total
+  - If the total VPC CIDR range is /16, then each subnet here would be /20
+
 ### Subnets 
 
 - Within a VPC, defined as a CIDR that is a subset of the VPC CIDR - - All instances within subnets get a private IP

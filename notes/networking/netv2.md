@@ -61,4 +61,26 @@ Route-based VPNs
 - In, summary as BGP autonomous system advertises the shortest path to a destination that it’s aware of to all other BGP routers that it’s paired with. It might be aware of more paths but it only advertises the shortest one.
 - It means that all BGP networks together to create a dynamic and ever-changing topology of all interconnected networks. It’s how many large enterprise networks function. It’s how the internet works and it’s how routes are learned and communicated when using Direct Connect and dynamic VPNs with AWS.
 
+**Another example of a BGP:**
+
+### ISPs as Autonomous Systems:
+
+- **ISP-A (AS1)**: A large internet service provider serving customers in North America. It has its own network infrastructure (routers, servers, cables, etc.) and an Autonomous System Number (ASN), say AS1.
+- **ISP-B (AS2)**: Another major ISP, but it serves customers in Europe, with its own infrastructure and ASN, say AS2.
+
+### Interconnection for Global Internet Access:
+
+- **Situation**: A user with an internet subscription from ISP-A wants to access a website hosted in ISP-B's network.
+- **Role of BGP**: Here's how BGP and ASes come into play:
+    1. **Routing Information Exchange**: ISP-A and ISP-B use BGP to share information about what networks they can reach and the best routes to take.
+    2. **Path Selection**: BGP algorithms in ISP-A's routers determine the best path to reach the website hosted in ISP-B's network. This decision is based on factors like the number of ASes the data must pass through (AS path), network policies, and traffic conditions.
+    3. **Data Transmission**: Once the best path is chosen, data from the user's computer travels through ISP-A's network, reaches ISP-B's network via inter-AS connections (possibly through other intermediate ASes), and finally arrives at the server hosting the website.
+    4. **Response Back**: The website server responds, and the data travels back through the selected route to the user's computer.
+
+### Key Points in This Example:
+
+- **Autonomy**: Each ISP, as an AS, independently manages its network and decides the best way to route traffic within and outside its network.
+- **Global Connectivity**: Despite being separate entities, ISP-A and ISP-B can communicate and route traffic between each other efficiently, thanks to BGP.
+- **Dynamic Routing**: BGP continuously updates the routing information. If a usual path becomes congested or unavailable, BGP can dynamically change the route to maintain connectivity.
+
 ## Fibre Optic Cables
