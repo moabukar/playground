@@ -65,9 +65,8 @@ resource "aws_eip" "nat_eip_app" {
   vpc = true
 }
 
-# Repeat NAT gateway and EIP creation for B and C tiers
-
-resource "aws_route_table" "public_route_table" {
+## Web association
+resource "aws_route_table" "web_route_table" {
   count = length(local.availability_zones)
   vpc_id = aws_vpc.main.id
 
@@ -77,10 +76,10 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-resource "aws_route_table_association" "public_route_table_association" {
+resource "aws_route_table_association" "web_subnet_route_table_association" {
   count          = length(local.availability_zones)
-  subnet_id      = aws_subnet.web_subnet[count.index].id
-  route_table_id = aws_route_table.public_route_table[count.index].id
+  subnet_id      = aws_subnet.web_subnet.id
+  route_table_id = aws_route_table.web_route_table.id
 }
 
 ###
@@ -92,14 +91,14 @@ resource "aws_route_table" "app_route_table" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gw[count.index].id
+    nat_gateway_id = aws_nat_gateway.nat_gw_app.id
   }
 }
 
 resource "aws_route_table_association" "app_route_table_association" {
   count          = length(local.availability_zones)
-  subnet_id      = aws_subnet.app_subnet[count.index].id
-  route_table_id = aws_route_table.app_route_table[count.index].id
+  subnet_id      = aws_subnet.app_subnet.id
+  route_table_id = aws_route_table.app_route_table.id
 }
 
 # Route Tables for DB Subnets (no NAT Gateway as these are private)
@@ -110,6 +109,6 @@ resource "aws_route_table" "db_route_table" {
 
 resource "aws_route_table_association" "db_route_table_association" {
   count          = length(local.availability_zones)
-  subnet_id      = aws_subnet.db_subnet[count.index].id
-  route_table_id = aws_route_table.db_route_table[count.index].id
+  subnet_id      = aws_subnet.db_subnet.id
+  route_table_id = aws_route_table.db_route_table.id
 }
