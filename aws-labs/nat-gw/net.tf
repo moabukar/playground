@@ -35,13 +35,33 @@ resource "aws_subnet" "web_subnet" {
 
 
 
-resource "aws_nat_gateway" "nat_gw" {
+resource "aws_nat_gateway" "nat_gw_web" {
   count         = length(local.availability_zones)
-  allocation_id = aws_eip.nat_eip[count.index].id
-  subnet_id     = aws_subnet.web_subnet[count.index].id
+  allocation_id = aws_eip.nat_eip_web.id
+  subnet_id     = aws_subnet.web_subnet.id
 }
 
-resource "aws_eip" "nat_eip_a" {
+resource "aws_nat_gateway" "nat_gw_db" {
+  count         = length(local.availability_zones)
+  allocation_id = aws_eip.nat_eip_db.id
+  subnet_id     = aws_subnet.db_subnet.id
+}
+
+resource "aws_nat_gateway" "nat_gw_app" {
+  count         = length(local.availability_zones)
+  allocation_id = aws_eip.nat_eip_app.id
+  subnet_id     = aws_subnet.app_subnet.id
+}
+
+resource "aws_eip" "nat_eip_web" {
+  vpc = true
+}
+
+resource "aws_eip" "nat_eip_db" {
+  vpc = true
+}
+
+resource "aws_eip" "nat_eip_app" {
   vpc = true
 }
 
