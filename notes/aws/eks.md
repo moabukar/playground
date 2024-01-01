@@ -1,4 +1,19 @@
-# Commong challenges faced
+# EKS basics
+
+- Managed K8s 
+- Outposts, EKS Anywhere, EKS Distro
+- Controlplane scales and runs on multiple AZs
+- Integrates with AWS services such as ECR, ELB, IAM, VPC
+- EKS cluster = EKS control plane + EKS worker nodes
+- etcd is distributed across multiple AZs
+- Nodes: self managed or managed node groups or Fargate pods
+  - windows, GPU, outposts, local zones... check node type
+- Storage providers: EBS, EFS, FSx for Lustre, FSx for NetApp ONTAP
+- Control plane communicates with worker nodes via ENI which are injected into the customer VPC
+- The kubelet service running on the worker nodes communicates with the control plane either via the ENI (which are injected into VPCs - kube-api traffic ) or a public control plane endpoint. Any admin via the control plane can also be done using this public endpoint. EKS admin via public endpoint.
+- Any consumption of the EKS serviecs is via ingress configurations which start from the customer VPC. 
+
+# Common challenges faced
 
 ## Run out of IP address spaces & latency
 
