@@ -134,3 +134,42 @@ Summary: Connection draining is for CLBs and this feature allows the connections
 Summary: Connection draining and Deregisration delay are both features that allow connections to be gracefully removed or commplete upto a timeout value from a load balancer as an instance is going out of service. Connection draining is for CLBs and Deregisration delay is for ALBs, NLBs and GWLBs.
 
 - It gives a graceful way for connections to age out and complete upto a timeout value which minimises disruption to applications, but also allows you to scale instances as part of ASGs or to take instances out of service for maintenance and all of that without disrupting the app that you're provisioning to your users. 
+
+## X-Forwarded-For & Proxy Protocol
+
+- Both achieve a similar aim, but they have specific use cases. 
+
+Example:
+- A client using the IP 1.3.3.7 connects to an app server directly without no LB. So no LB is used here. 
+  - With this type of connection, one thing that the server can do is record the IP address of the client. This is common and useful for logging, site localisation, security etc.
+  - This is done by just looking at the source IP address of the packets which they see.
+
+- With LBs, this gets more complicated. Two customers who are looking to connect to our app now via a LB. Then the LB load balances connections over multiple backend instances. 
+  - The backend services think that the LB is the source of the connection. So the backend services will see the LB's IP address as the source of the connection.
+  - There is no IP based method of linking the original client IP to the connections made from the LB through to the backend instances.
+  - This is where the X-Forwarded-For header and proxy protocol comes in.
+
+### X-Forwarded-For
+
+- A HTTP header which only works with HTTP/S listeners and no other protocols (only layer 7)
+- e.g. X-Forwarded-For: client-ip, proxy1-ip, proxy2-ip
+  - This header is added or appended by proxies/LBs
+  - X-Forwarded-For: 1.3.3.7, proxy1, proxy2 
+  - LB adds the above header containing the clients IP
+  - Backend server needs to be aware of this header and needs to support it
+- Config supported on CLB & ALB, not NLB (NLB is layer 4)
+- Note: when using HTTP or HTTPS, listener configuratons with ALB, connections are terminated at the LB, so it has access to be able to view and/or modify this header. 
+
+### Proxy Protocol
+
+- The Alternatve for Layer 4 protocols is Proxy Protocol
+- Additional layer 4 (tcp) header. Works with a range of protocols (including HTTP/S)
+  - this header is added as data passes through a proxy or LB. It can work with a wider range of L7 protocols like HTTP/s, but also other protocols like FTP/SMTP 
+- Works with CLB (v1) and NLB (v2 - binary encoded)
+- Because ALBs only support L7 listener configurations, they don't support proxy protocol. So you generally use this with NLBs. which can then load balance a wider range of application protocols. 
+
+Common use case for using proxy protocol:
+
+- Let's say you needed unbroken HTTPs encryption between the client and the backend instances. You can't use ALBs as these can only listen using L7 (HTTP/S) listener configurations. And this will terminate HTTP/S connections at the LB and then make a new connection to the backend instances.
+  - So in this case where you need unbroken encryption, you can use NLBs with TCP listeners and proxy protocol enabled. You can't add a HTTP header, it isn't decrypted. 
+- So you use the proxy protocol where the client IP header is added at the TCP level. That way the unbroken L7 payload could be carried by TCP and the IP addressing information is added at that level without requiring any change to the upper layer application protocol.
