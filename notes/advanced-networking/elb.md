@@ -173,3 +173,18 @@ Common use case for using proxy protocol:
 - Let's say you needed unbroken HTTPs encryption between the client and the backend instances. You can't use ALBs as these can only listen using L7 (HTTP/S) listener configurations. And this will terminate HTTP/S connections at the LB and then make a new connection to the backend instances.
   - So in this case where you need unbroken encryption, you can use NLBs with TCP listeners and proxy protocol enabled. You can't add a HTTP header, it isn't decrypted. 
 - So you use the proxy protocol where the client IP header is added at the TCP level. That way the unbroken L7 payload could be carried by TCP and the IP addressing information is added at that level without requiring any change to the upper layer application protocol.
+
+## LB Security Policies
+
+- Set of ciphers and protocols that are configured on an LB (which are OK to use, on listener)
+- Protocol ensures secure client >> server comms
+- Cipher is an algo - key + plaintext = ciphertext
+- Client and server negotiate a cipher to use for encryption - best supported cipher is used
+- You control policy between client >> LB
+- AWS chosen one is used LB >> Targets... ELBSecurityPolicy-2016-08
+- Newer policies are more secure but may not be supported by older clients
+  - if you need forward secrecy, you need to use a newer policy like ELBSecurityPolicy-FS
+
+## Gateway Load Balancers
+
+- 
