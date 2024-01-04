@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_vpc" "main" {
-  cidr_block = "10.16.0.0/16"
+  cidr_block           = "10.16.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
 }
@@ -67,7 +67,7 @@ resource "aws_eip" "nat_eip_app" {
 
 ## Web association
 resource "aws_route_table" "web_route_table" {
-  count = length(local.availability_zones)
+  count  = length(local.availability_zones)
   vpc_id = aws_vpc.main.id
 
   route {

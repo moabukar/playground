@@ -4,11 +4,11 @@ output "db_subnet_ids" {
 }
 
 output "app_subnet_ids" {
- value = aws_subnet.app_subnet.*.id
+  value = aws_subnet.app_subnet.*.id
 }
 
 output "web_subnet_ids" {
- value = aws_subnet.web_subnet.*.id
+  value = aws_subnet.web_subnet.*.id
 }
 
 # Outputs for route table IDs
