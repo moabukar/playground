@@ -67,4 +67,31 @@ Some additional best practices for EKS VPC external connectivity:
 - Provide internet access to nodes/pods using NAT GW (IPv4) or egress-only IGW (IPv6) >> 
   - Egress only NGW only allows traffic from IPv6 addresses to go out to the internet and not in. 
   - But for IPv4 addresses, you should have NAT GWs. The NAT GW should be in public subnet, so traffic goes from your pods to the NAT GWs to the IGW to the internet.
+- You can use VPC endpoint PrivateLink access for AWS services
+- Also connect your VPC or on-premises network using VPC peering or TGW or VPN or DX.
 - 
+
+
+
+### EKS Custom Networking (extending IPv4 address space)
+
+- There are times when you find yourself in a sitation where the located subnet IP ranges are not sufficient to provision additional pods - as you haven't allocated sufficient CIDR range to your VPC and subnets.
+- Problem: If you have limited IP space, it will constraint the number of pods you can run in your cluster.
+  - /24 CIDR will have 251 unique IPv4 addresses.
+  - 
+- Solution: Custom networking
+  - There is usually a base CIDR provisioned for your VPC but you can add additional CIDR ranges to your VPC. Aka secondary CIDR ranges.
+  - Add secondary VPC CIDR rage in the range 100.64.0.0/16 (65,000 private IPs) to the VPC. The constraint for this is that the IPs are only routable within the VPC - which means traffic from outside cannot directly go to these pods/IPs.
+  - You need to enable VPC CNI custom networking. `kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8s_CNI_CUSTOM_NETWORK_CFG=true`
+  - When you enable this custom networking, it adds a secondary CNI. It adds this CNI into another subnet. Your node becomes dual homed. It has 2 ENIs. One ENI is for the primary CNI and the other ENI is for the secondary CNI.
+  - After this is also enabled, only IPs from secondary ENI are now assigned to the pods
+  - Custom networking can be combined with SNAT. `kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8s_CNI_EXTERNALSNAT=false`
+  - NATing happens at the ENI level. So if you have 2 ENIs, you can have 2 NAT GWs.
+  - Because external SNAT is disabled, pods in the secondary subnet/CIDR will communicate via the primary ENI. The source packet of the pod will be the primary ENIs IP address.
+  - Now traffic can go to the attached VPC through transit gateway or if there is an internet gateway. And there is a public IP attached to the IGW, then it can go to the internet as well. 
+  - So this solution allows pods to go egress traffic but what about ingress traffic from the internet?
+    - The load balancer can be used for all the inbound traffic from the outside. That means if the peered VPC needs to send traffic to your pods, you can use either NLB or ALB. And because the LB is in the VPC, it can send traffic to the pods in the VPC in the secondary subnet. 
+- So to summarise: if you are limited by IP address ranges, you can add the 100.64..... range. And then using SNAT, you can enable the traffic going to and from external network. 
+
+
+
