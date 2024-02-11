@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack
+    ports:
+      - '4566:4566'
+    environment:
+      - EDGE_PORT=4566
+      - SERVICES=s3,lambda,logs,iam,sqs
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
