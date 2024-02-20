@@ -2,7 +2,7 @@
 
 ```bash
 ## nginx with a path html 
-docker run --name nginx --hostname ng1 -p 80:80 -v /Users/moabukar/Documents/Learning/playground/nginx/html:/usr/share/nginx/html -d nginx
+docker run --name nginx --hostname ng1 -p 80:80 -v /Users/mohameda/Documents/Learning/playground/nginx/html:/usr/share/nginx/html -d nginx
 
 ## inspect container 
 docker inspect nginx
