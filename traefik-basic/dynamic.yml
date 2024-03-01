@@ -36,10 +36,22 @@ http:
       loadBalancer:
         servers:
           - url: http://localhost:9992
+    app3:
+      loadBalancer:
+        servers:
+          - url: http://localhost:9993
+    app4:
+      loadBalancer:
+        servers:
+          - url: http://localhost:9994
     weighted-svc:
       weighted:
         services:
           - name: app1
-            weight: 100
+            weight: 3
           - name: app2
-            weight: 0
+            weight: 1
+          - name: app3
+            weight: 1
+          - name: app4
+            weight: 1

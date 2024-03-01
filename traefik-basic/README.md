@@ -34,3 +34,24 @@ With Docker:
 
 - `traefik --configfile=./static.yml`
 - `http://localhost:80` >> This will load balance between the multiple apps running on containers.
+
+
+## Using Jaeger tracing alongside Traefik
+
+```bash
+- docker run \
+    -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp \
+    -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
+```
+
+- Enable Jaeger tracing in `static.yml`:
+
+```bash
+tracing:
+  jaeger:
+    samplingServerURL: http://localhost:5778/sampling
+    localAgentHostPort: "localhost:6831"
+
+```
+
+- Once both above are setup, you can view it on the Jaeger UI here `http://localhost:16686/`
