@@ -1,20 +1,26 @@
 http:
   routers:
-    ping:
-      rule: "Path(`/ping`)"
-      entryPoints:
-        - http
-      service: proxy_8080
     allbackendRouter:
-      rule: Host(`localhost`)
+      rule: Host(`localhost`) && Path(`/`)
       entryPoints:
         - http
       service: allbackend
+    app1router:
+      rule: Host(`app1.localhost`)
+      entryPoints:
+        - http
+      service: app1
+    app2router:
+      rule: Host(`app2.localhost`)
+      entryPoints:
+        - http
+      service: app2
+    weighted-svc-router:
+      rule: Host(`weighted-svc.localhost`)
+      entryPoints:
+        - http
+      service: weighted-svc
   services:
-    proxy_8080:
-      loadBalancer:
-        servers:
-          - url: http://127.0.0.1:8080
     allbackend:
       loadBalancer:
         servers:
@@ -22,3 +28,18 @@ http:
           - url: http://localhost:9992
           - url: http://localhost:9993
           - url: http://localhost:9994
+    app1:
+      loadBalancer:
+        servers:
+          - url: http://localhost:9991
+    app2:
+      loadBalancer:
+        servers:
+          - url: http://localhost:9992
+    weighted-svc:
+      weighted:
+        services:
+          - name: app1
+            weight: 100
+          - name: app2
+            weight: 0

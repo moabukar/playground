@@ -22,8 +22,9 @@ With Docker:
 - `docker build . -t nodeapp -f Dockerfile.node`
 - `docker run --name nodeapp -p 9999:9999 nodeapp`
 
-## Multiple builds
+## Multiple builds (used with Traefik for LB)
 
+- `docker build . -t nodeapp -f Dockerfile.node`
 - `docker run -d -p 9991:9999 -e CONTAINER_NUMBER=1 nodeapp` - on port 9991
 - `docker run -d -p 9992:9999 -e CONTAINER_NUMBER=2 nodeapp` - on port 9992
 - `docker run -d -p 9993:9999 -e CONTAINER_NUMBER=3 nodeapp` - on port 8002
