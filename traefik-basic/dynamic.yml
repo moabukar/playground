@@ -5,11 +5,6 @@ http:
       entryPoints:
         - http
       service: proxy_8080
-    metrics:
-      rule: HostRegexp(`traefik.{^[a-zA-Z0-9-]*$}.trainline.services`) && Path(`/metrics`)
-      entryPoints:
-        - http
-      service: proxy_8080
     allbackendRouter:
       rule: Host(`localhost`)
       entryPoints:

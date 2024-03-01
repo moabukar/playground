@@ -7,7 +7,6 @@ providers:
     directory: .
     watch: true
 #   http:
-# #    endpoint: https://traefik-supplier.sandbox.trainline.services/config
 #     endpoint: http://host.docker.internal/config # testing local
 # #    endpoint: http://localhost:8008
 
