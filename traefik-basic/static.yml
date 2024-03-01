@@ -1,0 +1,54 @@
+# Use for local testing so you don't have to supply all
+# environment variables.
+
+providers:
+  file:
+    # directory: /etc/traefik/conf/
+    directory: .
+    watch: true
+#   http:
+# #    endpoint: https://traefik-supplier.sandbox.trainline.services/config
+#     endpoint: http://host.docker.internal/config # testing local
+# #    endpoint: http://localhost:8008
+
+ping:
+  entryPoint: "traefik"
+
+entryPoints:
+  http:
+    address: ":80"
+  websecure:
+    address: ":443"
+  metrics:
+    address: ":8082"
+  # jaeger:
+  #   address: ":5778"
+
+# API and dashboard configuration
+api:
+  insecure: true
+  dashboard: true
+
+accessLog:
+  format: json
+  fields:
+    headers:
+      defaultMode: keep
+log:
+  format: json
+
+metrics:
+  prometheus:
+    addRoutersLabels: true
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    entryPoint: "metrics"
+
+# tracing:
+#   jaeger:
+#     # entryPoint: "jaeger"
+#     samplingServerURL: http://localhost:5778/sampling
+#     localAgentHostPort: "localhost:6831"
+#     collector:
+#         endpoint: http://127.0.0.1:14268/api/traces?format=jaeger.thrift
+

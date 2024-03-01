@@ -1,0 +1,29 @@
+http:
+  routers:
+    ping:
+      rule: "Path(`/ping`)"
+      entryPoints:
+        - http
+      service: proxy_8080
+    metrics:
+      rule: HostRegexp(`traefik.{^[a-zA-Z0-9-]*$}.trainline.services`) && Path(`/metrics`)
+      entryPoints:
+        - http
+      service: proxy_8080
+    allbackendRouter:
+      rule: Host(`localhost`)
+      entryPoints:
+        - http
+      service: allbackend
+  services:
+    proxy_8080:
+      loadBalancer:
+        servers:
+          - url: http://127.0.0.1:8080
+    allbackend:
+      loadBalancer:
+        servers:
+          - url: http://localhost:9991
+          - url: http://localhost:9992
+          - url: http://localhost:9993
+          - url: http://localhost:9994
