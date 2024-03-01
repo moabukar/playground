@@ -1,6 +1,6 @@
-# Traefik - Load balancing between containers
+# Traefik - Load balancing between containers/apps
 
-Without Docker (via Traefik CLI):
+Without Docker (directly via Traefik CLI):
 
 - Install Traefik (`brew install traefik`)
 - `cd app`
