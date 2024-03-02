@@ -53,7 +53,7 @@ tracing:
 experimental:
   localPlugins:
     accblock:
-      moduleName: github.com/trainline-private/accblock
+      moduleName: github.com/moabukar/accblock
   # plugins:
   #   fail2ban:
   #     moduleName: "github.com/tomMoulard/fail2ban"
