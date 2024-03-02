@@ -55,3 +55,14 @@ tracing:
 ```
 
 - Once both above are setup, you can view it on the Jaeger UI here `http://localhost:16686/`
+
+
+## Error pages served by NGINX
+
+- `docker build . -t nginx -f Dockerfile.error`
+- `docker run -d -p 8090:80 nginx`
+- `http://localhost:8090/` >> This will show the error page served by NGINX.
+
+- Create a service in Traefik to route to the NGINX error page. Which will be used by the middleware to serve the error page.
+
+- Test out `weighted-svc.localhost` on browser which should load normally. Then test out `weighted-svc.localhost/random/path` and you should see the error served by NGINX. 

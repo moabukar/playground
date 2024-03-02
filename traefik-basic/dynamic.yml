@@ -1,9 +1,36 @@
 http:
+  middlewares:
+    redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    error:
+      errors:
+        status:
+          - "429"
+        service: serviceError
+        query: "errorrr"
+    ratelimit:
+      rateLimit:
+        average: 4
+        period: 2s
+    accblock:
+      plugin:
+        accblock:
+          accounts:
+            "ds-partner-stg": ["192.168.1.0/24", "192.168.2.0/24"]
+            "ds-customer-stg": ["10.0.0.0/8"]
+            "ds-inventories": ["172.16.0.0/16"]
+
+
   routers:
     allbackendRouter:
       rule: Host(`localhost`) && Path(`/`)
       entryPoints:
         - http
+      middlewares:
+        - ratelimit
+        # - accblock
       service: allbackend
     app1router:
       rule: Host(`app1.localhost`)
