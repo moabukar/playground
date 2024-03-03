@@ -1,0 +1,78 @@
+version: "1.0"
+stages:
+  - "clone"
+  - "build"
+  - "qa"
+  - "prod"  
+
+steps:
+  clone:
+    title: "Cloning repository"
+    type: "git-clone"
+    repo: "kostis-codefresh/traefik-rate-limit-demo"
+    revision: '${{CF_REVISION}}'
+    stage: "clone"
+
+  build:
+    title: "Building Docker image"
+    type: "build"
+    image_name: "kostiscodefresh/traefik-demo-app"
+    working_directory: "${{clone}}/simple-web-app"
+    tags:
+    - "latest"
+    - '${{CF_SHORT_REVISION}}'
+    dockerfile: "Dockerfile"
+    stage: "build"
+    registry: dockerhub
+  qa_deployment:
+    title: Deploy QA
+    stage: qa
+    image: codefresh/cf-deploy-kubernetes:master
+    working_directory: "${{clone}}"
+    commands:
+      - /cf-deploy-kubernetes ./manifests-qa/deployment.yml    
+      - /cf-deploy-kubernetes ./manifests-qa/service.yml 
+      - /cf-deploy-kubernetes ./manifests-qa/qa-rate-limit.yml 
+      - /cf-deploy-kubernetes ./manifests-qa/route.yml       
+    environment:
+      - KUBECONTEXT=aws-eu
+      - KUBERNETES_NAMESPACE=qa
+    env:
+      name: Traefik-QA
+      endpoints:
+      - name: Main
+        url: http://kostis-eu.sales-dev.codefresh.io/qa
+      type: kubernetes
+      change: '${{CF_COMMIT_MESSAGE}}'
+      filters:
+      - cluster: aws-eu
+        namespace: qa
+  askForPermission:
+    type: pending-approval
+    title: Deploy to Production?   
+    stage: prod   
+  prod_deployment:
+    title: Deploy Prod
+    stage: prod
+    image: codefresh/cf-deploy-kubernetes:master
+    working_directory: "${{clone}}"
+    commands:
+      - /cf-deploy-kubernetes ./manifests-prod/deployment.yml    
+      - /cf-deploy-kubernetes ./manifests-prod/service.yml 
+      - /cf-deploy-kubernetes ./manifests-prod/prod-rate-limit.yml 
+      - /cf-deploy-kubernetes ./manifests-prod/route.yml       
+    environment:
+      - KUBECONTEXT=aws-eu
+      - KUBERNETES_NAMESPACE=prod
+    env:
+      name: Traefik-Prod
+      endpoints:
+      - name: Main
+        url: http://kostis-eu.sales-dev.codefresh.io/prod
+      type: kubernetes
+      change: '${{CF_COMMIT_MESSAGE}}'
+      filters:
+      - cluster: aws-eu
+        namespace: prod
+
+

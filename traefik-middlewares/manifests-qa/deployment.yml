@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qa-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qa-app
+  template:
+    metadata:
+      labels:
+        app: qa-app
+    spec:
+      containers:
+      - name: webserver-simple
+        image: docker.io/kostiscodefresh/traefik-demo-app:main
+        ports:
+        - containerPort: 8080
