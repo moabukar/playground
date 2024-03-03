@@ -1,5 +1,5 @@
 FROM node:12-alpine
-COPY app /home/node
+COPY . /home/node
 WORKDIR /home/node/app
 RUN npm install
 CMD npm run app

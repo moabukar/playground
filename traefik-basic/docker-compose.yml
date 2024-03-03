@@ -3,8 +3,8 @@ version: '3.8'
 services:
   nodeapp1:
     build:
-      context: .
-      dockerfile: Dockerfile.node
+      context: ./app
+      dockerfile: Dockerfile
     ports:
       - "9991:9999"
     environment:
@@ -12,8 +12,8 @@ services:
 
   nodeapp2:
     build:
-      context: .
-      dockerfile: Dockerfile.node
+      context: ./app
+      dockerfile: Dockerfile
     ports:
       - "9992:9999"
     environment:
@@ -21,8 +21,8 @@ services:
 
   nodeapp3:
     build:
-      context: .
-      dockerfile: Dockerfile.node
+      context: ./app
+      dockerfile: Dockerfile
     ports:
       - "9993:9999"
     environment:
@@ -30,8 +30,8 @@ services:
 
   nodeapp4:
     build:
-      context: .
-      dockerfile: Dockerfile.node
+      context: ./app
+      dockerfile: Dockerfile
     ports:
       - "9994:9999"
     environment:
