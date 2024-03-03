@@ -1,4 +1,4 @@
-# Custom error pages
+# Custom error pages image
 
 - `docker build . -t error -f Dockerfile.error`
 - `docker run -d -p 8095:80 error`
