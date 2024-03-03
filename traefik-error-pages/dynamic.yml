@@ -14,14 +14,14 @@ http:
       rateLimit:
         average: 4
         period: 5s
-    accblock:
-      plugin:
-        accblock:
-          accounts:
-            "all": ["0.0.0.0/0"]
-            "test": ["127.0.0.1/32"]
-            "localhost-test": ["192.168.1.75/32"]
-            "ipv6" : ["::1/128"] # With this it works
+    # accblock:
+    #   plugin:
+    #     accblock:
+    #       accounts:
+    #         "all": ["0.0.0.0/0"]
+    #         "test": ["127.0.0.1/32"]
+    #         "localhost-test": ["192.168.1.75/32"]
+    #         "ipv6" : ["::1/128"] # With this it works
 
   routers:
     allbackendRouter:

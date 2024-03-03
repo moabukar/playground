@@ -10,7 +10,7 @@ services:
     environment:
       - CONTAINER_NUMBER=1
     networks:
-      - traefik-net
+      - traefik_net
 
   nodeapp2:
     build:
@@ -21,7 +21,7 @@ services:
     environment:
       - CONTAINER_NUMBER=2
     networks:
-      - traefik-net
+      - traefik_net
 
   nodeapp3:
     build:
@@ -32,7 +32,7 @@ services:
     environment:
       - CONTAINER_NUMBER=3
     networks:
-      - traefik-net
+      - traefik_net
 
   nodeapp4:
     build:
@@ -43,7 +43,7 @@ services:
     environment:
       - CONTAINER_NUMBER=4
     networks:
-      - traefik-net
+      - traefik_net
 
   errorapp:
     build:
@@ -52,7 +52,7 @@ services:
     ports:
       - "8095:82"
     networks:
-      - traefik-net
+      - traefik_net
 
   # traefik:
   #   build:
@@ -72,36 +72,36 @@ services:
 
   #   restart: unless-stopped
 
-  traefik:
-    # image: "traefik:v2.11"
-    # container_name: "traefik"
-    build:
-      context: .
-      dockerfile: Dockerfile.traefik
-      # args:
-      #   - ARCH=linux_amd64
+  # traefik:
+  #   # image: "traefik:v2.11"
+  #   # container_name: "traefik"
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.traefik
 
-    # command:
-    #   - "traefik"
-    #   - "--configFile=/etc/traefik/conf/static.yml"
-      #- "--log.level=DEBUG"
-      # - "--api.insecure=true"
-      # - "--providers.docker=true"
-      # - "--providers.docker.exposedbydefault=false"
-      # - "--entrypoints.web.address=:80"
+  #   command:
+  #     - "traefik"
+  #     - "--configFile=/etc/traefik/conf/static.yml"
+  #     #- "--log.level=DEBUG"
+  #     # - "--api.insecure=true"
+  #     # - "--providers.docker=true"
+  #     # - "--providers.docker.exposedbydefault=false"
+  #     # - "--entrypoints.web.address=:80"
 
-    ports:
-      - "82:82"
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./dynamic.yml:/etc/traefik/conf/dynamic.yml
-      - ./static.yml:/etc/traefik/conf/static.yml
-    networks:
-      - traefik-net
+  #   ports:
+  #     - "82:82"
+  #     - "80:80"
+  #     - "8080:8080"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./dynamic.yml:/etc/traefik/conf/dynamic.yml
+  #     - ./static.yml:/etc/traefik/conf/static.yml
+  #   networks:
+  #     - traefik_net
 
 networks:
-  traefik-net:
-    name: traefik-net
-    driver: bridge
+  # traefik_net:
+  #   name: traefik_net
+  #   driver: bridge
+  traefik_net:
+    external: true
