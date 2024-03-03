@@ -80,3 +80,20 @@ tracing:
 
 - Spam requests on weighted-svc.localhost and you should see a custom 429 error served by the error container. 
 - Try access `http://weighted-svc.localhost/error-503` to see a custom 503 error served by the error container.
+
+## All with docker compose
+
+- `docker network create traefik-net`
+- `docker compose up --build -d`
+- 
+
+
+## Others
+
+- `docker build . -t traefik -f Dockerfile.traefik`
+- `docker build . -t traefik -f Dockerfile.traefik --build-arg ARCH=linux_arm64` // for M1 Macs
+- `docker run -p 8080:8080 -p 80:80 -v ./static.yml:/etc/traefik/traefik.yml -it traefik`
+- `http://localhost:8080/dashboard`
+
+
+- docker run -p 8080:8080 -p 80:80 -v ./static.yml:/etc/traefik/traefik.yml -it traefik

@@ -1,8 +1,8 @@
 # Custom error pages image
 
-- `docker build . -t error -f Dockerfile.error`
-- `docker run -d -p 8095:80 error`
+- `docker build . -t error -f Dockerfile`
+- `docker run -d -p 8095:82 error`
 
 ## Directly from Docker Hub
 
-- `docker run -d -p 8095:80 moabukar/error-pages:fcaa3c4`
+- `docker run -d -p 8095:82 moabukar/error-pages:fcaa3c4`

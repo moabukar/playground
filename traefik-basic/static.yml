@@ -6,7 +6,7 @@ providers:
     directory: .
     watch: true
   # http:
-#    endpoint: http://localhost:8008
+  #   endpoint: http://host.docker.internal
 
 ping:
   entryPoint: "traefik"
@@ -31,6 +31,14 @@ accessLog:
   fields:
     headers:
       defaultMode: keep
+  filePath: access.log
+  filters:
+    statusCodes:
+      - "200"
+      - "300-304"
+      - "502"
+    retryAttempts: true
+    minDuration: "10ms"
 log:
   format: json
   # level: DEBUG

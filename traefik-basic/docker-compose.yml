@@ -9,6 +9,8 @@ services:
       - "9991:9999"
     environment:
       - CONTAINER_NUMBER=1
+    networks:
+      - traefik-net
 
   nodeapp2:
     build:
@@ -18,6 +20,8 @@ services:
       - "9992:9999"
     environment:
       - CONTAINER_NUMBER=2
+    networks:
+      - traefik-net
 
   nodeapp3:
     build:
@@ -27,6 +31,8 @@ services:
       - "9993:9999"
     environment:
       - CONTAINER_NUMBER=3
+    networks:
+      - traefik-net
 
   nodeapp4:
     build:
@@ -36,10 +42,66 @@ services:
       - "9994:9999"
     environment:
       - CONTAINER_NUMBER=4
+    networks:
+      - traefik-net
 
   errorapp:
     build:
       context: ./error-pages
       dockerfile: Dockerfile
     ports:
-      - "8095:80"
+      - "8095:82"
+    networks:
+      - traefik-net
+
+  # traefik:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.traefik
+  #   ports:
+  #     - "80:80"
+  #     - "8080:8080"
+  #     - "443:443"
+  #   volumes:
+  #     - ./dynamic.yml:/etc/traefik/conf/dynamic.yml
+  #     - ./static.yml:/etc/traefik/conf/static.yml
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro  # For Traefik to auto-discover services
+  #   command:
+  #     - "traefik"
+  #     - "--configFile=/etc/traefik/conf/static.yml"
+
+  #   restart: unless-stopped
+
+  traefik:
+    # image: "traefik:v2.11"
+    # container_name: "traefik"
+    build:
+      context: .
+      dockerfile: Dockerfile.traefik
+      # args:
+      #   - ARCH=linux_amd64
+
+    # command:
+    #   - "traefik"
+    #   - "--configFile=/etc/traefik/conf/static.yml"
+      #- "--log.level=DEBUG"
+      # - "--api.insecure=true"
+      # - "--providers.docker=true"
+      # - "--providers.docker.exposedbydefault=false"
+      # - "--entrypoints.web.address=:80"
+
+    ports:
+      - "82:82"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dynamic.yml:/etc/traefik/conf/dynamic.yml
+      - ./static.yml:/etc/traefik/conf/static.yml
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    name: traefik-net
+    driver: bridge

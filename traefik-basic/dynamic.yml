@@ -30,13 +30,13 @@ http:
         - http
       middlewares:
         - ratelimit
-        - accblock
+        # - accblock
         - error
       service: allbackend
     app1router:
       rule: Host(`app1.localhost`)
       entryPoints:
-        - http
+         - http
       service: app1
     app2router:
       rule: Host(`app2.localhost`)

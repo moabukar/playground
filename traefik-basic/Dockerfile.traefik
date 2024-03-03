@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 ENV TRAEFIK_VERSION=2.10.3
-ARG ARCH='linux_386'
+ARG ARCH='linux_arm64'
 
 RUN cd /tmp && \
     apt-get update && \
@@ -19,14 +19,16 @@ RUN mkdir -p /etc/traefik && \
 
 # Copy custom Traefik config files
 COPY ./dynamic.yml /etc/traefik/conf/
+COPY ./static.yml /etc/traefik/conf/
 
 
 WORKDIR /etc/traefik
 
 # Expose ports
 EXPOSE 80
+EXPOSE 82
 EXPOSE 8080
 EXPOSE 443
 
 # Start Traefik
-CMD ["traefik"]
+CMD ["traefik", "--configFile=/etc/traefik/conf/static.yml"]
