@@ -76,7 +76,7 @@ tracing:
 - Run Traefik `traefik --configfile=./static.yml`
 - Test out `weighted-svc.localhost` on browser which should load normally. Then test out `weighted-svc.localhost/random/path` and you should see the error served by NGINX.
 
-## Simulate errors
+## Simulate errors (4xx and 5xx)
 
 - Spam requests on weighted-svc.localhost and you should see a custom 429 error served by the error container. 
 - Try access `http://weighted-svc.localhost/error-503` to see a custom 503 error served by the error container.
