@@ -40,6 +40,6 @@ services:
   errorapp:
     build:
       context: ./error-pages
-      dockerfile: Dockerfile.error
+      dockerfile: Dockerfile
     ports:
       - "8095:80"
