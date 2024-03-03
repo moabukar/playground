@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/error-pages-publish.yml
-      - traefik-basic/error-pages/
+      - traefik-basic/error-pages/**
 
 jobs:
   build-and-publish:
