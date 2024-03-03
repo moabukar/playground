@@ -26,11 +26,12 @@ jobs:
     - name: Build and Publish
       run: |
         registry="moabukar"
-        dir=./traefik-basic/error-pages/Dockerfile
+        dir=./traefik-basic/error-pages/
+        file=Dockerfile
         sha=$(git rev-parse --short HEAD)
         primary_tag="${registry}/error-pages:${sha}"
         
-        docker build . -t $primary_tag -f $dir
+        docker build $dir -t $primary_tag -f $file
         docker push $primary_tag
 
         current_branch=$(git rev-parse --abbrev-ref HEAD)
