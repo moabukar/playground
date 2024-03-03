@@ -31,7 +31,7 @@ jobs:
         sha=$(git rev-parse --short HEAD)
         primary_tag="${registry}/error-pages:${sha}"
         
-        docker build $dir -t $primary_tag -f $file
+        docker build -t $primary_tag $dir -f $dir/$file
         docker push $primary_tag
 
         current_branch=$(git rev-parse --abbrev-ref HEAD)
