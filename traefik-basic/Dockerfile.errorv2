@@ -1,3 +1,0 @@
-FROM guillaumebriday/traefik-custom-error-pages
-
-EXPOSE 80
