@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  nodeapp1:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "9991:9999"
+    environment:
+      - CONTAINER_NUMBER=1
+
+  nodeapp2:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "9992:9999"
+    environment:
+      - CONTAINER_NUMBER=2
+
+  nodeapp3:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "9993:9999"
+    environment:
+      - CONTAINER_NUMBER=3
+
+  nodeapp4:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "9994:9999"
+    environment:
+      - CONTAINER_NUMBER=4
+
+  errorapp:
+    build:
+      context: ./error-pages
+      dockerfile: Dockerfile.error
+    ports:
+      - "8095:80"

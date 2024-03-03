@@ -7,21 +7,21 @@ http:
     error:
       errors:
         status:
-          - "429"
-        service: serviceError
-        query: "errorrr"
+          - 400-509
+        service: traefik-error
+        query: /{status}.html
     ratelimit:
       rateLimit:
         average: 4
-        period: 2s
+        period: 5s
     accblock:
       plugin:
         accblock:
           accounts:
-            "ds-partner-stg": ["192.168.1.0/24", "192.168.2.0/24"]
-            "ds-customer-stg": ["10.0.0.0/8"]
-            "ds-inventories": ["172.16.0.0/16"]
-
+            "all": ["0.0.0.0/0"]
+            "test": ["127.0.0.1/32"]
+            "localhost-test": ["192.168.1.75/32"]
+            "ipv6" : ["::1/128"] # With this it works
 
   routers:
     allbackendRouter:
@@ -30,7 +30,8 @@ http:
         - http
       middlewares:
         - ratelimit
-        # - accblock
+        - accblock
+        - error
       service: allbackend
     app1router:
       rule: Host(`app1.localhost`)
@@ -47,6 +48,24 @@ http:
       entryPoints:
         - http
       service: weighted-svc
+      middlewares:
+        - error
+        - ratelimit
+    error-router:
+      rule: Host(`error.localhost`)
+      priority: 1
+      entryPoints:
+        - http
+      service: traefik-error
+      middlewares:
+        - error
+    traefik:
+      rule: Host(`traefik.localhost`)
+      entryPoints:
+        - http
+      service: api@internal
+      middlewares:
+        - error
   services:
     allbackend:
       loadBalancer:
@@ -82,3 +101,7 @@ http:
             weight: 1
           - name: app4
             weight: 1
+    traefik-error:
+      loadBalancer:
+        servers:
+          - url: http://localhost:8095

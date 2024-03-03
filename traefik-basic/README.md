@@ -27,8 +27,8 @@ With Docker:
 - `docker build . -t nodeapp -f Dockerfile.node`
 - `docker run -d -p 9991:9999 -e CONTAINER_NUMBER=1 nodeapp` - on port 9991
 - `docker run -d -p 9992:9999 -e CONTAINER_NUMBER=2 nodeapp` - on port 9992
-- `docker run -d -p 9993:9999 -e CONTAINER_NUMBER=3 nodeapp` - on port 8002
-- `docker run -d -p 9994:9999 -e CONTAINER_NUMBER=4 nodeapp` - on port 8002
+- `docker run -d -p 9993:9999 -e CONTAINER_NUMBER=3 nodeapp` - on port 9993
+- `docker run -d -p 9994:9999 -e CONTAINER_NUMBER=4 nodeapp` - on port 9994
 
 ## Traefik build
 
@@ -57,12 +57,26 @@ tracing:
 - Once both above are setup, you can view it on the Jaeger UI here `http://localhost:16686/`
 
 
-## Error pages served by NGINX
+## Error pages served by custom error image (runs NGINX in the background)
 
-- `docker build . -t nginx -f Dockerfile.error`
-- `docker run -d -p 8090:80 nginx`
-- `http://localhost:8090/` >> This will show the error page served by NGINX.
+- cd into `error-pages` directory
+- `docker build . -t error -f Dockerfile.error`
+- `docker run -d -p 8095:80 error` >> This will show the error page served by the custom error image (runs NGINX inside)
 
-- Create a service in Traefik to route to the NGINX error page. Which will be used by the middleware to serve the error page.
+- Create a service in Traefik to route to the serror pages. Which will be used by the middleware to serve the error page.
 
-- Test out `weighted-svc.localhost` on browser which should load normally. Then test out `weighted-svc.localhost/random/path` and you should see the error served by NGINX. 
+- Make sure apps are not running first then browse `weighted-svc.localhost` and you should see the 502 error served by Traefik custom error page.
+
+- Also test out `weighted-svc.localhost` on browser which should load normally. Then test out `weighted-svc.localhost/random/path` and you should see the error served by NGINX. 
+
+
+## ALL DEMO:
+
+- `docker compose up --build` or `docker compose up --build -d`
+- Run Traefik `traefik --configfile=./static.yml`
+- Test out `weighted-svc.localhost` on browser which should load normally. Then test out `weighted-svc.localhost/random/path` and you should see the error served by NGINX.
+
+## Simulate errors
+
+- Spam requests on weighted-svc.localhost and you should see a custom 429 error served by the error container. 
+- Try access `http://weighted-svc.localhost/error-503` to see a custom 503 error served by the error container.
