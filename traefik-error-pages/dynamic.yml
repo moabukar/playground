@@ -10,20 +10,33 @@ http:
           - 400-509
         service: traefik-error
         query: /{status}.html
+    error-all:
+      errors:
+        status:
+          - 404
+        service: catch-all
+        query: /404.html
     ratelimit:
       rateLimit:
         average: 4
         period: 5s
-    # accblock:
-    #   plugin:
-    #     accblock:
-    #       accounts:
-    #         "all": ["0.0.0.0/0"]
-    #         "test": ["127.0.0.1/32"]
-    #         "localhost-test": ["192.168.1.75/32"]
-    #         "ipv6" : ["::1/128"] # With this it works
+    accblock:
+      plugin:
+        accblock:
+          accounts:
+            "all": ["0.0.0.0/0"]
+            "test": ["127.0.0.1/32"]
+            "localhost-test": ["192.168.1.75/32"]
+            "ipv6" : ["::1/128"] # With this it works
 
   routers:
+    catch-all:
+      rule: HostRegexp(`{any:.+}`)
+      entryPoints:
+        - http
+      service: catch-all
+      middlewares:
+        - error-all
     allbackendRouter:
       rule: Host(`localhost`) && Path(`/`)
       entryPoints:
@@ -38,12 +51,14 @@ http:
       entryPoints:
          - http
       service: app1
+      middlewares:
+        - error-all
     app2router:
       rule: Host(`app2.localhost`)
       entryPoints:
         - http
       service: app2
-    weighted-svc-router:
+    weighted-svc:
       rule: Host(`weighted-svc.localhost`)
       entryPoints:
         - http
@@ -51,21 +66,43 @@ http:
       middlewares:
         - error
         - ratelimit
+        # - redirect
+    weighted-svc-router:
+      rule: Host(`traefikdemo2.ddns.net`)
+      entryPoints:
+        - http
+      service: weighted-svc
+      middlewares:
+        - error
+        - ratelimit
+        # - redirect
+    weighted-svc-secure:
+      #rule: Host(`weighted-svc.localhost`)
+      rule: Host(`traefikdemo2.ddns.net`)
+      entryPoints:
+        - websecure
+      service: weighted-svc
+      tls:
+        certResolver: letsencrypt
+        options: tlsoptions
+      middlewares:
+        - error
+        # - ratelimit
     error-router:
       rule: Host(`error.localhost`)
       priority: 1
       entryPoints:
         - http
       service: traefik-error
-      middlewares:
-        - error
+      # middlewares:
+      #   - error-all
     traefik:
       rule: Host(`traefik.localhost`)
       entryPoints:
         - http
       service: api@internal
       middlewares:
-        - error
+        - error-all
   services:
     allbackend:
       loadBalancer:
@@ -105,3 +142,26 @@ http:
       loadBalancer:
         servers:
           - url: http://localhost:8095
+    catch-all:
+      loadBalancer:
+        servers:
+          - port: 80
+
+# tls:
+#   options:
+#     tlsoptions:
+#       minVersion: VersionTLS13
+#       clientAuth:
+#         caFiles:
+#           # for local testing
+#           - /Users/mohameda/Document/Learning/playground/traefik-error-pages/root_ca.crt
+#           # for container
+#           # - /home/.step/authorities/test.ca/certs/root_ca.crt
+# # the path of root certificate might be like below:-
+# # <USER_HOME>/.step/authorities/test.ca/certs/root_ca.crt
+#         clientAuthType: RequireAndVerifyClientCert
+
+tls:
+  options:
+    tlsoptions:
+      minVersion: VersionTLS13

@@ -81,7 +81,7 @@ services:
 
   #   command:
   #     - "traefik"
-  #     - "--configFile=/etc/traefik/conf/static.yml"
+  #     - "--configFile=/etc/traefik/traefik.yml"
   #     #- "--log.level=DEBUG"
   #     # - "--api.insecure=true"
   #     # - "--providers.docker=true"
@@ -92,10 +92,11 @@ services:
   #     - "82:82"
   #     - "80:80"
   #     - "8080:8080"
+  #     - "443:443"
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock:ro
   #     - ./dynamic.yml:/etc/traefik/conf/dynamic.yml
-  #     - ./static.yml:/etc/traefik/conf/static.yml
+  #     - ./static.yml:/etc/traefik/traefik.yml
   #   networks:
   #     - traefik_net
 

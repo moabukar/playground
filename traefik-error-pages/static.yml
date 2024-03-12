@@ -3,6 +3,7 @@
 
 providers:
   file:
+    # directory: /Users/mohameda/Documents/Learning/playground/traefik-error-pages
     directory: .
     watch: true
   # http:
@@ -12,6 +13,8 @@ providers:
   #   #endpoint: 127.0.0.1
   #   exposedByDefault: true
   #   useBindPortIP: true
+
+#traefikerrors.ddns.net
 
 ping:
   entryPoint: "traefik"
@@ -57,6 +60,28 @@ metrics:
     addServicesLabels: true
     entryPoint: "metrics"
 
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: moabukar9@gmail.com
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      storage: acme.json
+      # dnsChallenge:
+      #   provider: manual
+      #   disablePropagationCheck: true
+      #   delayBeforeCheck: 0
+      httpChallenge:
+          entryPoint: http
+      tlsChallenge: {}
+
+  letsencrypt:
+    acme:
+      email: moabukar9@gmail.com
+      httpChallenge:
+          entryPoint: http
+
+
 # tracing:
 #   jaeger:
 #     # entryPoint: "jaeger"
@@ -65,10 +90,10 @@ metrics:
 #     # collector:
 #     #     endpoint: http://127.0.0.1:14268/api/traces?format=jaeger.thrift
 
-# experimental:
-#   localPlugins:
-#     accblock:
-#       moduleName: github.com/moabukar/accblock
+experimental:
+  localPlugins:
+    accblock:
+      moduleName: github.com/moabukar/accblock
   # plugins:
   #   fail2ban:
   #     moduleName: "github.com/tomMoulard/fail2ban"

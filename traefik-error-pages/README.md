@@ -5,6 +5,7 @@ Without Docker (directly via Traefik CLI):
 - Install Traefik (`brew install traefik`)
 - `cd app`
 - `ln -s $(pwd)/dynamic.yml /etc/traefik/conf/dynamic.yml`
+- `ln -s $(pwd)/static.yml /etc/traefik/traefik.yml`
 - `traefik --configfile=./static.yml`
 - `http://localhost:8080/dashboard`
 
