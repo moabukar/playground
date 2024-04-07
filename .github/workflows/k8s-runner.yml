@@ -1,10 +1,10 @@
-name: k8s-gh-runner CLI
+name: gh-runner-basic CLI
 
 on:
   push:
     paths:
       - .github/workflows/k8s-runner.yml
-      - k8s-gh-runner-v2/**
+      - gh-runner-basic/**
 
 jobs:
   build-and-publish:
@@ -26,21 +26,21 @@ jobs:
     - name: Build and Publish
       run: |
         registry="moabukar"
-        dir=./k8s-gh-runner-v2/
+        dir=./gh-runner-basic/
         file=Dockerfile
         sha=$(git rev-parse --short HEAD)
-        primary_tag="${registry}/k8s-gh-runner:${sha}"
+        primary_tag="${registry}/gh-runner-basic:${sha}"
         
         docker build -t $primary_tag $dir -f $dir/$file
         docker push $primary_tag
 
         current_branch=$(git rev-parse --abbrev-ref HEAD)
         if [ "$current_branch" = "main" ]; then
-          retention_tag="${registry}/k8s-gh-runner:rc-${sha}"
+          retention_tag="${registry}/gh-runner-basic:rc-${sha}"
           docker tag $primary_tag $retention_tag
           docker push $retention_tag
         else
-          retention_tag="${registry}/k8s-gh-runner:alpha-${sha}"
+          retention_tag="${registry}/gh-runner-basic:alpha-${sha}"
           docker tag $primary_tag $retention_tag
           docker push $retention_tag
         fi

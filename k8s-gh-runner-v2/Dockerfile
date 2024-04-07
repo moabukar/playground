@@ -1,4 +1,5 @@
-FROM debian:buster-slim
+# FROM debian:buster-slim
+FROM --platform=linux/arm64/v8 debian:buster-slim
 
 ARG GITHUB_RUNNER_VERSION="2.293.0"
 # ARG HELM_VERSION="3.9.0"
@@ -13,14 +14,14 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-        apt-transport-https=1.8.2.2 \
-        ca-certificates=20200601~deb10u2 \
-        gnupg=2.2.12-1+deb10u1 \
-        gnupg-agent=2.2.12-1+deb10u1 \
-        software-properties-common=0.96.20.2-2 \
-        curl=7.64.0-4+deb10u2 \
-        git=1:2.20.1-2+deb10u3 \
-        jq=1.5+dfsg-2+b1 \
+        apt-transport-https \
+        ca-certificates \
+        gnupg \
+        gnupg-agent \
+        software-properties-common \
+        curl \
+        git \
+        jq \
         curl \
         xvfb \
         libgtk2.0-0 \
@@ -32,10 +33,11 @@ RUN apt-get update \
         libxss1 \
         libasound2 \
         libxtst6 \
-        xauth   \
-        jq      \
-        # wget    \
+        xauth \
+        jq \
+        wget \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install helm
 # RUN wget https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -45,11 +47,11 @@ RUN apt-get update \
 
 # Install Docker client
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" \
+    && echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
     && apt-get update \
-    && apt-get install docker-ce-cli=5:20.10.2~3-0~debian-buster --no-install-recommends -y \
+    && apt-get install docker-ce-cli --no-install-recommends -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/*
     # && useradd -m github
 
 WORKDIR /home/github

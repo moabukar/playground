@@ -19,9 +19,9 @@ spec:
           image: moabukar/k8s-gh-runner:latest
           env:
             - name: GITHUB_OWNER
-              value: $GITHUB_REPOSITORY_OWNER
+              value: moabukar
             - name: GITHUB_REPOSITORY
-              value: k8s-runners-github
+              value: playground
             - name: RUNNER_NAME_PREFIX
               value: "runner-pool-"
             - name: "RUNNER_LABELS"
