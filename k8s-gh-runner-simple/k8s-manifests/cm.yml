@@ -5,6 +5,6 @@ metadata:
   labels:
     app: k8s-github-runner
 data:
-  REPO_OWNER: <repo-owner>
-  REPO_NAME: <repo-name>
-  ACTIONS_RUNNER_INPUT_URL: "https://github.com/<repo-owner/repo-name"
+  REPO_OWNER: moabukar
+  REPO_NAME: playground
+  ACTIONS_RUNNER_INPUT_URL: "https://github.com/moabukar/playground"

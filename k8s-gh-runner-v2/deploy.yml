@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: github-k8s-runner
-          image: $GKE_REGION-docker.pkg.dev/$GKE_PROJECT/$GKE_PROJECT/$GKE_APP_NAME:$GITHUB_SHA
+          image: moabukar/k8s-gh-runner:latest
           env:
             - name: GITHUB_OWNER
               value: $GITHUB_REPOSITORY_OWNER
