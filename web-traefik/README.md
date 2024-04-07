@@ -7,9 +7,10 @@
 
 Create a docker network `docker network create traefik_webgateway`
 
-## Start Traefik
+## Start Traefik and app
 
-- `cd  traefik/development`
+
 - `docker-compose up`
 - Access the app endpoint `curl http://mysuperapp.localhost/` or access it on the browser
 - Access the app API endpoint `curl http://api.mysuperapp.localhost/docs` or access it on the browser
+- Access Traefik dashboard `http://localhost:8080/dashboard/`
