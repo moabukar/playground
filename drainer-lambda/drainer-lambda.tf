@@ -1,14 +1,18 @@
 resource "aws_lambda_function" "node_drainer" {
-  filename      = "node_drainer.zip"
+  filename      = "drainer.zip"
+  #filename      = "drainer-go.zip" ## For golang version
   function_name = "${var.name_prefix}-node-drainer-function"
   role          = aws_iam_role.node_drainer.arn
   handler       = "handler.lambda_handler"
+  # handler       = "main" ## compiled handler for Golang
   memory_size   = "256"
   timeout       = "300"
 
   source_code_hash = filebase64sha256("drainer.zip")
+  # source_code_hash = filebase64sha256("drainer-go.zip")
 
   runtime = "python3.8"
+  # runtime = "provided.al2023" ## used for custom runtime or Golang
 
   environment {
     variables = {

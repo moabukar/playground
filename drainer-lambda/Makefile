@@ -13,7 +13,7 @@ tf-plan-dev:
 tf-apply-dev:
 	terraform init && terraform validate && terraform apply -var-file=vars/dev.tfvars -auto-approve
 
-.PHONY: build-lambda-node-drainer
+.PHONY: build-lambda
 build-lambda-node-drainer:
 	rm -f node_drainer.zip && \
 	pip3 install -r ./node_drainer/drainer/requirements.txt --target ./lambda_build && \
