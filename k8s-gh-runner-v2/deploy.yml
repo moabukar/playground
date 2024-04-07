@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+        - name: github-k8s-runner
+          image: $GKE_REGION-docker.pkg.dev/$GKE_PROJECT/$GKE_PROJECT/$GKE_APP_NAME:$GITHUB_SHA
+          env:
+            - name: GITHUB_OWNER
+              value: $GITHUB_REPOSITORY_OWNER
+            - name: GITHUB_REPOSITORY
+              value: k8s-runners-github
+            - name: RUNNER_NAME_PREFIX
+              value: "runner-pool-"
+            - name: "RUNNER_LABELS"
+              value: "k8s,k8s-app"
+            - name: GITHUB_PAT # stored separately in a Kubernetes secret
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: pat

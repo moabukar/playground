@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-github-runner
+spec:
+  selector:
+    matchLabels:
+      app: k8s-github-runner
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: k8s-github-runner
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: k8s-github-runner
+          image: quay.io/tuannvm/k8s-github-runner
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: k8s-github-runner-config
+            - secretRef:
+                name: k8s-github-runner-secret
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "/bin/bash",
+                    "-c",
+                    'RUNNER_ALLOW_RUNASROOT=1 ./config.sh remove --token $(curl -sS --request POST --url "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/runners/remove-token" --header "authorization: Bearer ${GITHUB_TOKEN}"  --header "content-type: application/json" | jq -r .token)',
+                  ]
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "1"

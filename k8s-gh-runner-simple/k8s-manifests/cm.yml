@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-github-runner-config
+  labels:
+    app: k8s-github-runner
+data:
+  REPO_OWNER: <repo-owner>
+  REPO_NAME: <repo-name>
+  ACTIONS_RUNNER_INPUT_URL: "https://github.com/<repo-owner/repo-name"
