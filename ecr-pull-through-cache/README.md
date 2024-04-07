@@ -11,6 +11,8 @@ After you’ve created a pull through cache rule for the upstream registry, simp
 
 ## validation
 
+The validate-pull-through-cache-rule AWS CLI command is used to validate a pull through cache rule for an Amazon ECR private registry. The following example uses the ecr namespace prefix. Replace that value with the prefix value for the pull through cache rule to validate.
+
 ```sh
 aws ecr validate-pull-through-cache-rule \
      --ecr-repository-prefix ecr \
