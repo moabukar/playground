@@ -208,3 +208,5 @@ terraform.rc
 **/terraform.tfstate
 **/.terraform
 **/reports/
+
+.DS_Store
