@@ -1,0 +1,11 @@
+# github
+{
+  "username":"moabukar",
+  "accessToken":"ghp_token"
+}
+
+# dockerhub
+{
+  "username":"moabukar",
+  "accessToken":"dckr_pat_token"}
+}
