@@ -212,4 +212,5 @@ terraform.rc
 .DS_Store
 **secret.yml*
 **/secret.yml*
-gh-runner-basic/k8s/secret.yml
+*secret*.yml
+
