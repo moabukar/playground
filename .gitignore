@@ -210,3 +210,5 @@ terraform.rc
 **/reports/
 
 .DS_Store
+**secret.yml*
+**/secret.yml*
