@@ -21,3 +21,10 @@ spec:
               secretKeyRef:
                 name: gh-runner-secret
                 key: GITHUB_RUNNER_TOKEN
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
