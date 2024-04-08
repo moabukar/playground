@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: runner
-        image: moabukar/gh-runner-basic:7febc64
+        image: moabukar/gh-runner-basic:6c2485a
         env:
           - name: GITHUB_RUNNER_TOKEN
             valueFrom:
