@@ -211,6 +211,5 @@ terraform.rc
 
 .DS_Store
 **secret.yml*
-**/secret.yml*
-*secret*.yml
+
 
