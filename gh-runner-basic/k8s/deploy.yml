@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-actions-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-actions-runner
+  template:
+    metadata:
+      labels:
+        app: github-actions-runner
+    spec:
+      containers:
+      - name: runner
+        image: moabukar/gh-runner-basic:7febc64
+        env:
+          - name: GITHUB_RUNNER_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: gh-runner-secret
+                key: GITHUB_RUNNER_TOKEN
