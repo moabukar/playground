@@ -1,0 +1,8 @@
+*.swp
+.vagrant
+go.sum
+basics/service-a/service-a
+basics/service-b/service-b
+request-hedging/service-a/service-a
+request-hedging/service-b/service-b
+.DS_Store
