@@ -1,0 +1,71 @@
+--- # base packages:
+
+- name: packages | apt update && apt dist-upgrade *MAY TAKE A LONG TIME*
+  apt:
+    update_cache: True
+    upgrade: dist
+
+# keep alphabetically ordered
+- name: packages | install standard additions to the base install
+  apt:
+    state: latest
+    pkg:
+      - brasero
+      - build-essential
+      - clamav
+      - clamav-daemon
+      - curl
+      #- exfat-utils
+      - fzf
+      - gcc
+      - gimp
+      - git
+      - gitk
+      - golang
+      - graphviz
+      - htop
+      - httpie
+      - jq
+      - make
+      - meld
+      - net-tools
+      - nmap
+      - p7zip
+      - python3-pip
+      - qpdf
+      - ranger
+      - ripgrep
+      - rtorrent
+      - sshfs
+      - sshpass
+      - tcpdump
+      - tmux
+      - tree
+      - ufw
+      - unrar
+      - unzip
+      - vim-gtk3
+      - virtualbox
+      - vlc
+      - whois
+      - xclip
+
+- name: packages | apt autoremove & autoclean
+  apt:
+    autoremove: True
+    autoclean: True
+
+- name: packages | enable clamav service
+  systemd:
+    name: clamav-daemon
+    enabled: True
+    state: started
+
+- name: packages | install additional pip packages
+  pip:
+    state: latest
+    executable: pip3
+    name:
+      - pip # self upgrade pip first
+      - glances
+      - bottle

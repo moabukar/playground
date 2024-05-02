@@ -1,0 +1,25 @@
+---
+#- name: Add Brave apt key
+#  apt_key:
+#    url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
+#    id: D8BAD4DE7EE17AF52A834B2D0BB75829C2D4E821
+#    state: present
+
+- name: Add Brave apt repository key
+  get_url:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
+    dest: /usr/share/keyrings/brave-core.asc
+    mode: 0644
+    force: true
+
+- name: Add Brave apt repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/brave-core.asc] https://brave-browser-apt-release.s3.brave.com/ stable main"
+    filename: brave-browser
+    state: present
+    update_cache: True
+
+- name: Install Brave from repository
+  apt:
+    name: brave-browser
+    state: latest

@@ -1,0 +1,12 @@
+[local]
+localhost
+
+# Group 'multi' with all hosts
+[multi:children]
+local
+
+[multi:vars]
+ansible_become=True
+ansible_become_method=sudo
+ansible_become_user=root
+ansible_python_interpreter=/usr/bin/python3

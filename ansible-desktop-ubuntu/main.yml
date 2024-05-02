@@ -1,0 +1,30 @@
+---
+- name: Playbook desktop start
+  hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+  #tasks:
+  #- include_tasks: tasks/main.yml
+
+  roles:
+    - base
+    - aws-cli
+    - brave
+    - chrome
+    - docker
+    - gh_cli
+    - hashicorp
+    - keepassxc
+    - kubectl
+    - lens
+    - microsoft
+    - opera
+    - signal-desktop
+    - vivaldi
+    - ufw
+    - env
+    - vim
+    - disable-local-dns # execute this last, due to avoid momentary updating of dns setting
+    #- yubico

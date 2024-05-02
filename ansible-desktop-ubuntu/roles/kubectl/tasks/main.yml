@@ -1,0 +1,38 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - apt-transport-https
+      - bash-completion
+      - ca-certificates
+      - curl
+    state: present
+
+- name: Install Kubernetes apt key
+  get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg.asc
+    dest: /usr/share/keyrings/kubernetes-archive-keyring.asc
+    mode: 0644
+    force: true
+
+- name: Add Kubernetes repo
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.asc] https://apt.kubernetes.io/ kubernetes-xenial main"
+    filename: kubectl
+    state: present
+    update_cache: True
+
+- name: Install Kubectl
+  apt:
+    name:
+      - kubectl
+    state: latest
+
+#- name: Check if Kubectl auto-complete is enabled
+#  stat:
+#    path: /etc/bash_completion.d/kubectl
+#  register: kubectl_auto
+#
+#- name: Enable Kubectl auto-complete for all users
+#  shell: kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+#  when: kubectl_auto.stat.exists == False
