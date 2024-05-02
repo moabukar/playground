@@ -1,0 +1,6 @@
+*.swp
+*.swo
+wsmux
+dist/*
+.DS_Store
+bin/
