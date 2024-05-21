@@ -1,4 +1,4 @@
-# Apache Pulsar learning notes
+# Apache Pulsar labbing
 
 ## Pulsar in a container
 
@@ -36,6 +36,18 @@ Send some messages to be consumed by the producer `python3 producer.py`
 ```
 
 ## Pulsar in docker compose
+
+```bash
+
+docker-compose up
+
+web-dashboard - http://localhost:9527: pulsar-admin dashboard, showing various metrics and metadata information about the cluster
+
+broker-admin - http://localhost:8080: access the broker REST interface
+
+broker-service-url - pulsar//:locahost:6650: broker service URL for use with producers and consumers
+
+```
 
 ## Pulsar raw
 
