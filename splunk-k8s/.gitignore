@@ -10,3 +10,5 @@ terraform.tfvars
 terraform.tfstate.d/
 terraform.log
 tfplan
+.env
+.DS_Store

@@ -39,8 +39,6 @@ resource "random_string" "aks" {
 }
 
 locals {
-  # version used for both main AKS API service, and default node pool
-  # https://github.com/Azure/AKS/releases
   # az aks get-versions --location uksouth --output table
   kubernetes_version  = "1.20.7"
   location            = "uksouth"
@@ -51,7 +49,7 @@ locals {
   tags = {
     App    = "splunk"
     Env    = "Dev"
-    Owner  = "Adam Rush"
+    Owner  = "Mo"
     Source = "terraform"
     # Must add following tags to avoid automatic changes by Azure Policy
     application      = "splunk-testing"
@@ -68,7 +66,7 @@ resource "azurerm_resource_group" "aks" {
 }
 
 module "aks" {
-  source = "adamrushuk/aks/azurerm"
+  source = "moabukar/aks/azurerm"
 
   kubernetes_version  = local.kubernetes_version
   location            = azurerm_resource_group.aks.location
