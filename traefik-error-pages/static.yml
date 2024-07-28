@@ -6,13 +6,13 @@ providers:
     # directory: /Users/mohameda/Documents/Learning/playground/traefik-error-pages
     directory: .
     watch: true
-  # http:
-  #   endpoint: http://host.docker.internal
-  # docker:
-  #   endpoint: "unix:///var/run/docker.sock"
-  #   #endpoint: 127.0.0.1
-  #   exposedByDefault: true
-  #   useBindPortIP: true
+    # http:
+    #   endpoint: http://host.docker.internal
+    # docker:
+    #   endpoint: "unix:///var/run/docker.sock"
+    #   #endpoint: 127.0.0.1
+    #   exposedByDefault: true
+    #   useBindPortIP: true
 
 #traefikerrors.ddns.net
 
@@ -28,8 +28,8 @@ entryPoints:
     address: ":8082"
   traefik:
     address: ":8080"
-  # jaeger:
-  #   address: ":5778"
+    # jaeger:
+    #   address: ":5778"
 
 # API and dashboard configuration
 api:
@@ -44,9 +44,9 @@ accessLog:
   filePath: access.log
   filters:
     statusCodes:
-      - "200"
-      - "300-304"
-      - "502"
+    - "200"
+    - "300-304"
+    - "502"
     retryAttempts: true
     minDuration: "10ms"
 log:
@@ -72,28 +72,28 @@ certificatesResolvers:
       #   disablePropagationCheck: true
       #   delayBeforeCheck: 0
       httpChallenge:
-          entryPoint: http
+        entryPoint: http
       tlsChallenge: {}
 
   letsencrypt:
     acme:
       email: moabukar9@gmail.com
       httpChallenge:
-          entryPoint: http
+        entryPoint: http
 
 
-# tracing:
-#   jaeger:
-#     # entryPoint: "jaeger"
-#     samplingServerURL: http://localhost:5778/sampling
-#     localAgentHostPort: "localhost:6831"
-#     # collector:
-#     #     endpoint: http://127.0.0.1:14268/api/traces?format=jaeger.thrift
+  # tracing:
+  #   jaeger:
+  #     # entryPoint: "jaeger"
+  #     samplingServerURL: http://localhost:5778/sampling
+  #     localAgentHostPort: "localhost:6831"
+  #     # collector:
+  #     #     endpoint: http://127.0.0.1:14268/api/traces?format=jaeger.thrift
 
-experimental:
-  localPlugins:
-    accblock:
-      moduleName: github.com/moabukar/accblock
+  # experimental:
+  #   localPlugins:
+  #     accblock:
+  #       moduleName: github.com/moabukar/accblock
   # plugins:
   #   fail2ban:
   #     moduleName: "github.com/tomMoulard/fail2ban"

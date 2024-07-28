@@ -1,0 +1,37 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-tailscale
+  labels:
+    app: nginx-tailscale
+spec:
+  selector:
+    matchLabels:
+      app: nginx-tailscale
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-tailscale
+    spec:
+      containers:
+      - name: nginx-tailscale
+        image: nginx:1.20-alpine
+        ports:
+        - containerPort: 8000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-tailscale
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+  - port: 8000
+  selector:
+    app: nginx-tailscale
