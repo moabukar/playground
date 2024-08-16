@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build the Docker image
-docker build . -t nodeapp -f Dockerfile.node
+docker build . -t nodeapp -f app/Dockerfile
 
 # Start containers
 docker run -d -p 9991:9999 -e CONTAINER_NUMBER=1 nodeapp
@@ -14,7 +14,7 @@ echo "Containers are up and running!"
 ##
 echo "Starting error containers served by NGINX"
 
-docker build . -t nginx -f Dockerfile.error
+docker build . -t nginx -f error-pages/Dockerfile
 docker run -d -p 8090:80 nginx
 
 echo "all ready!"

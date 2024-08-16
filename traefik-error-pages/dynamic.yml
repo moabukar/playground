@@ -7,13 +7,13 @@ http:
     error:
       errors:
         status:
-          - 400-509
+        - 400-509
         service: traefik-error
         query: /{status}.html
     error-all:
       errors:
         status:
-          - 404
+        - 404
         service: catch-all
         query: /404.html
     ratelimit:
@@ -27,125 +27,125 @@ http:
             "all": ["0.0.0.0/0"]
             "test": ["127.0.0.1/32"]
             "localhost-test": ["192.168.1.75/32"]
-            "ipv6" : ["::1/128"] # With this it works
+            "ipv6": ["::1/128"] # With this it works
 
   routers:
     catch-all:
       rule: HostRegexp(`{any:.+}`)
       entryPoints:
-        - http
+      - http
       service: catch-all
       middlewares:
-        - error-all
+      - error-all
     allbackendRouter:
       rule: Host(`localhost`) && Path(`/`)
       entryPoints:
-        - http
+      - http
       middlewares:
-        - ratelimit
-        # - accblock
-        - error
+      - ratelimit
+      # - accblock
+      - error
       service: allbackend
     app1router:
       rule: Host(`app1.localhost`)
       entryPoints:
-         - http
+      - http
       service: app1
       middlewares:
-        - error-all
+      - error-all
     app2router:
       rule: Host(`app2.localhost`)
       entryPoints:
-        - http
+      - http
       service: app2
     weighted-svc:
       rule: Host(`weighted-svc.localhost`)
       entryPoints:
-        - http
+      - http
       service: weighted-svc
       middlewares:
-        - error
-        - ratelimit
-        # - redirect
-    weighted-svc-router:
-      rule: Host(`traefikdemo2.ddns.net`)
-      entryPoints:
-        - http
-      service: weighted-svc
-      middlewares:
-        - error
-        - ratelimit
-        # - redirect
-    weighted-svc-secure:
-      #rule: Host(`weighted-svc.localhost`)
-      rule: Host(`traefikdemo2.ddns.net`)
-      entryPoints:
-        - websecure
-      service: weighted-svc
-      tls:
-        certResolver: letsencrypt
-        options: tlsoptions
-      middlewares:
-        - error
-        # - ratelimit
+      - error
+      - ratelimit
+      # - redirect
+    # weighted-svc-router:
+    #   rule: Host(`traefikdemo2.ddns.net`)
+    #   entryPoints:
+    #     - http
+    #   service: weighted-svc
+    #   middlewares:
+    #     - error
+    #     - ratelimit
+    #     # - redirect
+    # weighted-svc-secure:
+    #   #rule: Host(`weighted-svc.localhost`)
+    #   rule: Host(`traefikdemo2.ddns.net`)
+    #   entryPoints:
+    #     - websecure
+    #   service: weighted-svc
+    #   tls:
+    #     certResolver: letsencrypt
+    #     options: tlsoptions
+    #   middlewares:
+    #     - error
+    #     # - ratelimit
     error-router:
       rule: Host(`error.localhost`)
       priority: 1
       entryPoints:
-        - http
+      - http
       service: traefik-error
       # middlewares:
       #   - error-all
     traefik:
       rule: Host(`traefik.localhost`)
       entryPoints:
-        - http
+      - http
       service: api@internal
       middlewares:
-        - error-all
+      - error-all
   services:
     allbackend:
       loadBalancer:
         servers:
-          - url: http://localhost:9991
-          - url: http://localhost:9992
-          - url: http://localhost:9993
-          - url: http://localhost:9994
+        - url: http://localhost:9991
+        - url: http://localhost:9992
+        - url: http://localhost:9993
+        - url: http://localhost:9994
     app1:
       loadBalancer:
         servers:
-          - url: http://localhost:9991
+        - url: http://localhost:9991
     app2:
       loadBalancer:
         servers:
-          - url: http://localhost:9992
+        - url: http://localhost:9992
     app3:
       loadBalancer:
         servers:
-          - url: http://localhost:9993
+        - url: http://localhost:9993
     app4:
       loadBalancer:
         servers:
-          - url: http://localhost:9994
+        - url: http://localhost:9994
     weighted-svc:
       weighted:
         services:
-          - name: app1
-            weight: 3
-          - name: app2
-            weight: 1
-          - name: app3
-            weight: 1
-          - name: app4
-            weight: 1
+        - name: app1
+          weight: 3
+        - name: app2
+          weight: 1
+        - name: app3
+          weight: 1
+        - name: app4
+          weight: 1
     traefik-error:
       loadBalancer:
         servers:
-          - url: http://localhost:8095
+        - url: http://localhost:8095
     catch-all:
       loadBalancer:
         servers:
-          - port: 80
+        - port: 80
 
 # tls:
 #   options:
@@ -161,7 +161,7 @@ http:
 # # <USER_HOME>/.step/authorities/test.ca/certs/root_ca.crt
 #         clientAuthType: RequireAndVerifyClientCert
 
-tls:
-  options:
-    tlsoptions:
-      minVersion: VersionTLS13
+# tls:
+#   options:
+#     tlsoptions:
+#       minVersion: VersionTLS13
