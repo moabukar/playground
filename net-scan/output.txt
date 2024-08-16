@@ -1,0 +1,4 @@
+> sudo python3 scan-net.py
+
+subnet:192.168.1.0/24
+live hosts on subnet:['192.168.1.186', '192.168.1.187', '192.168.1.254']
